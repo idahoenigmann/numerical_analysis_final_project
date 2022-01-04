@@ -6,6 +6,7 @@
 \usepackage{enumitem}
 \usepackage{amsthm}
 
+
 \renewcommand*{\proofname}{Beweis}
 
 %opening
@@ -17,8 +18,17 @@
 \maketitle
 
 \section*{Aufgabe 1: Aufwandsordnung numerischer Verfahren}
+Wir betrachten ein abstraktes numerisches Verfahren, das für $N \in \mathbb{N}$ Eingabedaten eine Laufzeit von $y_N \in \mathbb{R}_+$ hat. Man sagt, das Verfahren habe Aufwandsordnung $p > 0$, falls eine Konstante $C > 0$ existiert, sodass $y_N \leq C N^p$ für alle $N \in \mathbb{N}$.
+
 \subsection*{Teilaufgabe 1a:}
-TODO Angabe 1a
+Die Aufwandsordnung lässt sich über die Folge $\{p_N\}_{N \in \mathbb{N}}$ mit
+
+\begin{align}
+	\label{eq:def_N}
+	p_N = \frac{\log(y_{2N})-\log(y_n)}{\log(2)} \text{ für } N \in \mathbb{N}
+\end{align}
+
+quantifizieren. Beachten Sie, dass die Bestimmung von $p_N$ die Verfügbarkeit von zwei aufeinanderfolgenden Folgengliedern $y_N$ und $y_{2N}$ erfordert. Verwenden Sie den Ansatz $y_N = CN^p$ und leiten Sie die Formel in \ref{eq:def_N} her!
 
 \begin{proof}
 	Annahme: $\forall N \in \mathbb{N}$ ist $p_N$, sodass $y_N \leq C N^{p_N}$ für ein $C > 0$.
@@ -27,29 +37,39 @@ TODO Angabe 1a
 	
 	Für $C:=max\{C_{1N}, C_{2N}\}$ und $p_N:=max\{p_{1N}, p_{2N}\}$ gilt $y_N \leq C_{1N} N^{p_{1N}} \leq C N^{p_N}$ und $y_{2N} \leq C_{2N} (2N)^{p_{2N}} \leq C (2N)^{p_N}$.
 	 
-	 TODO ...
-	 
-	\begin{align*}
+	\begin{align}
 		\log(y_{2N}) - \log(y_N) = \log\left(\frac{y_{2N}}{y_N}\right) = \log\left(\frac{C(2N)^{p_N}}{C\cdot N^{p_N}}\right) = \log(2^{p_N}) = p_N \log(2) \\
 		\implies p_N = \frac{\log(y_{2N}) - \log(y_N)}{\log(2)}
-	\end{align*}
+	\end{align}
+
+	TODO ob das so alles passt...
+
 \end{proof}
 
 \subsection*{Teilaufgabe 1b:}
-TODO Angabe 1b
+Sei $\{\delta_N\}_{N \in \mathbb{N}} \subseteq \mathbb{R}$ eine Nullfolge, d.h. es gilt $\delta_N \rightarrow 0$ für $N \rightarrow \infty$. Weiters verhalte sich die Laufzeit wie $y_N = (C+\delta_N)N^p$ mit $C > 0$. Zeigen Sie, dass die Folge $\{p_N\}_{N \in \mathbb{N}}$ gegen $p$ konvergiert, d.h. es gilt $p_N \rightarrow p$ für $N \rightarrow \infty$.
 
-\begin{proof}
+\begin{proof}	
+	Zuerst berechnen wir einen Grenzwert, den wir in späterer Folge verwenden werden. Die Gleichungen stimmen, da $\lim$ stetig ist und da laut Voraussetzung $\delta_N$ und somit auch $\delta_{2N}$ als Teilfolge, gegen $0$ konvergieren.
 	
-	\begin{align*}
-		\lim\limits_{n\rightarrow\infty} \log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right) = \log\left(\lim\limits_{n\rightarrow\infty}\frac{C+\delta_{2N}}{C+\delta_N}\right) = \log\left(\frac{\lim\limits_{n\rightarrow\infty}C+\delta_{2N}}{\lim\limits_{n\rightarrow\infty}C+\delta_N}\right) = \log\left(\frac{C}{C}\right) = \log(1) = 0\\
+	\begin{align}
+		\lim\limits_{n\rightarrow\infty} \log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right) = \log\left(\lim\limits_{n\rightarrow\infty}\frac{C+\delta_{2N}}{C+\delta_N}\right) = \log\left(\frac{\lim\limits_{n\rightarrow\infty}C+\delta_{2N}}{\lim\limits_{n\rightarrow\infty}C+\delta_N}\right) = \log\left(\frac{C}{C}\right) = \log(1) = 0
+	\end{align}
+
+	Wir berechnen $\lim\limits_{n\rightarrow\infty}p_n$ indem wir die Gleichung \ref{eq:def_N} verwenden. Durch Einsetzen von $y_N = (C+\delta_N)N^p$ und den Rechenregeln von Limiten und dem Logarithmus erhalten wir folgendes:
+
+	\begin{align}
 		\implies
 		p_N = \frac{\log(y_{2N}) - \log(y_N)}{\log(2)} = \frac{\log((C+\delta_{2N})(2N)^p) - \log((C+\delta_N)N^p)}{\log(2)} = \frac{\log\left(\frac{(C+\delta_{2N})(2N)^p}{(C+\delta_N)N^p}\right)}{\log(2)} \\
-		= \frac{\log\left(\frac{(C+\delta_{2N})2^p}{(C+\delta_N)}\right)}{\log(2)} = \frac{p \log(2) + \log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right)}{\log(2)} = p + \frac{\log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right)}{\log(2)} \xrightarrow{n\rightarrow\infty} p + 0 = p		
-	\end{align*}
+		= \frac{\log\left(\frac{(C+\delta_{2N})2^p}{(C+\delta_N)}\right)}{\log(2)} = \frac{p \log(2) + \log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right)}{\log(2)} = p + \frac{\log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right)}{\log(2)} \xrightarrow{n\rightarrow\infty} p + 0 = p
+	\end{align}
+	
+	Zusammenfassend gilt nun $\lim\limits_{n\rightarrow\infty}p_n = p$, was zu zeigen war.
+
 \end{proof}
 
 \subsection*{Teilaufgabe 1c:}
-TODO Angabe 1c
+In sogenannter doppelt logarithmischer Darstellung (log-log Plots) wird für beide Koordinatenachsen eine logarithmische Skalierung verwendet, d.h. sowohl die waagrechte als auch die senkrechte Koordinatenachse wird logarithmisch unterteilt. Wie werden Potenzfunktionen der Form $y = c x^p$ in einem log-log Plot dargestellt? Wie können Sie die Ordnung $p$ und die Konstante $c > 0$ aus einem log-log Plot von $y = cx^p$ direkt auslesen?
 
 Darstellung ist Gerade. $c = f(1)$ und $p$ ist Steigung, wenn beide Achsen ''gleich'' skaliert.
 
