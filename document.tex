@@ -54,11 +54,49 @@ TODO Angabe 1c
 Darstellung ist Gerade. $c = f(1)$ und $p$ ist Steigung, wenn beide Achsen ''gleich'' skaliert.
 
 \section*{Aufgabe 2: Cholesky-Verfahren und Skyline-Matrizen}
+\subsection*{Teilaufgabe 2a:}
+TODO Angabe 2a
+
+\begin{proof}
+	TODO Beweis 2a aufschreiben
+\end{proof}
+
+\subsection*{Teilaufgabe 2b:}
+
+\begin{proof}
+	TODO Beweis 2b
+\end{proof}
 
 \section*{Aufgabe 3: Pseudocode für Cholesky-Zerlegung von Skyline-Matrizen}
+\subsection{Teilaufgabe 3a:}
+TODO Angabe 3a
+
+TODO Pseudocode
+
+\subsection*{Teilaufgabe 3b:}
+TODO Angabe 3b
+
+TODO Pseudocode aufschreiben
 
 \section*{Aufgabe 4: Aufwand des Algorithmus und Verhalten in Spezialfällen}
+\subsection*{Teilaufgabe 4a:}
+TODO Angabe 4a
+
+TODO Aufwand bestimmen
+
+\subsection*{Teilaufgabe 4b:}
+TODO Angabe 4b
+
+linke Matrix ist quasi vollbesetzt als Skyline-Matrix (mit Nulleinträgen!)
+
+rechte Matrix hat p=q=0 für alle außer letzte Zeile dort p=q=n
+
+effizientere berechnung der cholesky-Zerlegung durch ''spiegeln''. Also aus $A \in \mathbb{R}^{n\times n}$ mache $B \in \mathbb{R}^{n\times n}$ durch $B_{i,j} = A_{(n+1-i),(n+1-j)}$. Umkehrabbildung ist gleich (auch $(i, j) \mapsto (n+1-i, n+1-j)$). Dann erhält man eine Matrix mit der rechten Form, kann die cholesky-zerlegung $LL^T=B$ berechnen und erhält dann, dass $L$ gespiegelt (auch wieder gleich) eine untere Dreiecksmatrix mit $\hat{L}\hat{L}^T=A$.
 
 \section*{Aufgabe 5: Implementierung des Algorithmus und empirische Aufwandsschätzung}
+TODO Angabe 5
+
+TODO Anhang Python-Code (+ Grafik Performance?)
+
 
 \end{document}
