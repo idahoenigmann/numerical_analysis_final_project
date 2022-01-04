@@ -1,5 +1,13 @@
 \documentclass[]{article}
 
+\usepackage{amsfonts} 
+\usepackage{amsmath}
+\usepackage[margin=3cm]{geometry}
+\usepackage{enumitem}
+\usepackage{amsthm}
+
+\renewcommand*{\proofname}{Beweis}
+
 %opening
 \title{Abschlussprojekt}
 \author{Ida Hönigmann \and Fabian Dopf}
@@ -9,7 +17,41 @@
 \maketitle
 
 \section*{Aufgabe 1: Aufwandsordnung numerischer Verfahren}
+\subsection*{Teilaufgabe 1a:}
+TODO Angabe 1a
 
+\begin{proof}
+	Annahme: $\forall N \in \mathbb{N}$ ist $p_N$, sodass $y_N \leq C N^{p_N}$ für ein $C > 0$.
+	
+	Für ein beliebiges $N \in \mathbb{N}$ gilt $\exists C_{1N}, C_{2N} > 0$ und $p_{1N}, p_{2N} > 0$ mit $y_N \leq C_{1N} N^{p_{1N}}$ und $y_{2N} \leq C_{2N} (2N)^{p_{2N}}$.
+	
+	Für $C:=max\{C_{1N}, C_{2N}\}$ und $p_N:=max\{p_{1N}, p_{2N}\}$ gilt $y_N \leq C_{1N} N^{p_{1N}} \leq C N^{p_N}$ und $y_{2N} \leq C_{2N} (2N)^{p_{2N}} \leq C (2N)^{p_N}$.
+	 
+	 TODO ...
+	 
+	\begin{align*}
+		\log(y_{2N}) - \log(y_N) = \log\left(\frac{y_{2N}}{y_N}\right) = \log\left(\frac{C(2N)^{p_N}}{C\cdot N^{p_N}}\right) = \log(2^{p_N}) = p_N \log(2) \\
+		\implies p_N = \frac{\log(y_{2N}) - \log(y_N)}{\log(2)}
+	\end{align*}
+\end{proof}
+
+\subsection*{Teilaufgabe 1b:}
+TODO Angabe 1b
+
+\begin{proof}
+	
+	\begin{align*}
+		\lim\limits_{n\rightarrow\infty} \log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right) = \log\left(\lim\limits_{n\rightarrow\infty}\frac{C+\delta_{2N}}{C+\delta_N}\right) = \log\left(\frac{\lim\limits_{n\rightarrow\infty}C+\delta_{2N}}{\lim\limits_{n\rightarrow\infty}C+\delta_N}\right) = \log\left(\frac{C}{C}\right) = \log(1) = 0\\
+		\implies
+		p_N = \frac{\log(y_{2N}) - \log(y_N)}{\log(2)} = \frac{\log((C+\delta_{2N})(2N)^p) - \log((C+\delta_N)N^p)}{\log(2)} = \frac{\log\left(\frac{(C+\delta_{2N})(2N)^p}{(C+\delta_N)N^p}\right)}{\log(2)} \\
+		= \frac{\log\left(\frac{(C+\delta_{2N})2^p}{(C+\delta_N)}\right)}{\log(2)} = \frac{p \log(2) + \log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right)}{\log(2)} = p + \frac{\log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right)}{\log(2)} \xrightarrow{n\rightarrow\infty} p + 0 = p		
+	\end{align*}
+\end{proof}
+
+\subsection*{Teilaufgabe 1c:}
+TODO Angabe 1c
+
+Darstellung ist Gerade. $c = f(1)$ und $p$ ist Steigung, wenn beide Achsen ''gleich'' skaliert.
 
 \section*{Aufgabe 2: Cholesky-Verfahren und Skyline-Matrizen}
 
