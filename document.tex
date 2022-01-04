@@ -74,14 +74,34 @@ In sogenannter doppelt logarithmischer Darstellung (log-log Plots) wird für bei
 Darstellung ist Gerade. $c = f(1)$ und $p$ ist Steigung, wenn beide Achsen ''gleich'' skaliert.
 
 \section*{Aufgabe 2: Cholesky-Verfahren und Skyline-Matrizen}
+Eine Matrix $A \in \mathbb{R}^{n\times n}$ heißt Skyline-Matrix, falls es für $l = 1, ..., n$ Zahlen $p_l, q_l \in \mathbb{N}_0$ gibt, sodass für die $i$-te Zeile und $j$-te Spalte von $A$ gilt:
+
+\begin{itemize}
+	\item $A_{i,k} = 0 \text{ für } k < i - p_i$,
+	\item $A_{k,j} = 0 \text{ für } k < j - q_j$,
+\end{itemize}
+
+Folgendes Beispiel illustriert diese Aussage:
+
+\begin{align*}
+	A = \begin{pmatrix}
+		1 &   &   &   & 1 \\
+		  & 1 &   & 2 & 2 \\
+		  &   & 1 & 3 & 3 \\
+		1 & 2 & 3 &14 &18 \\
+		  & 4 & 5 &29 &48 \\
+	\end{pmatrix}.
+\end{align*}
+
 \subsection*{Teilaufgabe 2a:}
-TODO Angabe 2a
+Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es wird nicht durch Null dividiert oder die Wurzel aus einer negativen Zahl gezogen), wenn die Matrix $A \in \mathbb{R}^{n\times n}$ symmetrisch und positiv definit ist.
 
 \begin{proof}
 	TODO Beweis 2a aufschreiben
 \end{proof}
 
 \subsection*{Teilaufgabe 2b:}
+Beweisen Sie, dass die Besetzungsstruktur der Cholesky-Zerlegung der Skyline-Matrix $A$ erhalten bleibt, d.h. dass auch die untere Dreiecksmatrix $L$ eine geeignete Bandstruktur aufweist.
 
 \begin{proof}
 	TODO Beweis 2b
