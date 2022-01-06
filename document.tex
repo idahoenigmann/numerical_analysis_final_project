@@ -97,7 +97,125 @@ Folgendes Beispiel illustriert diese Aussage:
 Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es wird nicht durch Null dividiert oder die Wurzel aus einer negativen Zahl gezogen), wenn die Matrix $A \in \mathbb{R}^{n\times n}$ symmetrisch und positiv definit ist.
 
 \begin{proof}
-	TODO Beweis 2a aufschreiben
+	Wir wiederholen zuerst die Definitionen von symmetrischen und positiv definitiven Matrizen.
+	
+	Eine Matrix $A \in \mathbb{R}^{n\times n}$ heißt symmetrisch, falls $A = A^T$.
+	
+	Eine Matrix $A \in \mathbb{R}^{n\times n}$ heißt positiv definit, falls $\forall u \in \mathbb{R}^n\setminus\{0\}: u^T A u > 0$.
+	
+	Wir zeigen $A \in \mathbb{K}^{n\times n}$ symmetrisch und positiv definit impliziert $\exists L \in \mathbb{R}^{n\times n}$ untere Dreiecksmatrix mit $LL^T=A$ durch vollständige Induktion nach $n$.
+	
+	\begin{itemize}
+		\item \textbf{Induktionsanfang:} $n=1$
+		
+		Wenn $A := \begin{pmatrix}
+			a_{11}
+		\end{pmatrix} \in \mathbb{R}^{1\times 1}$ eine symmetrische und positiv definite Matrix ist, folgt aus positiv definit, dass für
+	
+		\begin{align*}
+			u := \begin{pmatrix}
+				1
+			\end{pmatrix} \in \mathbb{R}^1 \setminus\{0\} && 0 < u^TAu = \begin{pmatrix}
+				1
+			\end{pmatrix} \begin{pmatrix}
+				a_{11}
+			\end{pmatrix} \begin{pmatrix}
+				1
+			\end{pmatrix} = a_{11}
+		\end{align*}
+	
+		Definieren wir nun $L := \begin{pmatrix}
+			\sqrt{a_{11}}
+		\end{pmatrix} \in \mathbb{R}^{1}$, dann gilt
+	
+		\begin{align*}
+			LL^T = \begin{pmatrix}
+				\sqrt{a_{11}}
+			\end{pmatrix} \begin{pmatrix}
+				\sqrt{a_{11}}
+			\end{pmatrix} = \begin{pmatrix}
+				a_{11}
+			\end{pmatrix} = A
+		\end{align*}
+	
+		\item \textbf{Induktionsvoraussetzung:} $\forall A \in \mathbb{R}^{n \times n}$ symmetrisch und positiv definit gilt $\exists L \in \mathbb{R}^{n\times n}$ untere Dreiecksmatrix mit $LL^T=A$.
+		
+		\item \textbf{Induktionsschritt:} $n-1 \implies n$
+		
+		Sei $A \in \mathbb{R}^{n\times n}$ eine symmetrische und positiv definite Matrix. Wir definieren eine Matrix $B \in \mathbb{R}^{(n-1)\times(n-1)}$ durch $B_{i,j} := A_{i,j}$, einen Vektor $a \in \mathbb{R}^{n-1}$ durch $a_i := A_{i,n}$ und eine Zahl $\alpha \in \mathbb{R}$ durch $\alpha := A_{n,n}$.
+		
+		Zusammengefasst gilt nun
+		
+		\begin{align*}
+			A = \begin{pmatrix}
+				B & a \\
+				a^T & \alpha
+			\end{pmatrix} && \text{ wobei sich das }a^T\text{ aus der Symmetrie von }A\text{ ergibt.}
+		\end{align*}
+	
+		Für $B$ gilt, dass es sich um eine symmetrische und positiv definite Matrix aus $\mathbb{R}^{(n-1)\times(n-1)}$ handelt. Laut Induktionsvoraussetzung existiert dazu eine untere Dreiecksmatrix $P \in \mathbb{R}^{(n-1)\times(n-1)}$ mit $PP^T=B$.
+		
+		Da $B$ positiv definit ist und somit regulär ist, folgt die eindeutige Existenz eines Vektors $l \in \mathbb{R}^{n-1}$ der die Gleichung $Pl=a$ erfüllt.
+		
+		Wir wollen nun $\beta \in \mathbb{R}$ so definieren, dass $\beta = \sqrt{\alpha - l^Tl}$. Dazu müssen wir sicherstellen, dass $\alpha - l^Tl > 0$.
+		
+		Wenn wir die Definition von $l$ verwenden und Umformen erhalten wir
+		
+		\begin{align*}
+			\alpha - l^Tl &= \alpha - (P^{-1}a)^T(P^{-1}a) = \alpha - a^T (P^{-1})^TP^{-1}a \\
+			&= \alpha - a^T (PP^T)^{-1}a = \alpha - a^T B^{-1}a
+		\end{align*}
+	
+		\begin{align*}
+			0 < \begin{pmatrix}
+				-B^{-1}a\\
+				1
+			\end{pmatrix}^T
+			\underbrace{\begin{pmatrix}
+				B & a\\
+				a^T & \alpha
+			\end{pmatrix}}_{=A}
+			\begin{pmatrix}
+				-B^{-1}a\\
+				1
+			\end{pmatrix} =
+			\alpha - a^T B^{-1} a
+		\end{align*}
+	
+		Also können wir $\beta := \sqrt{\alpha - l^Tl}$ setzen. Dann gilt $l^Tl + \beta^2 = \alpha$.
+		
+		Definieren wir nun $L \in \mathbb{R}^{n\times n}$ durch
+		
+		\begin{align*}
+			L = \begin{pmatrix}
+				P & 0 \\
+				l^T & \beta
+			\end{pmatrix}
+		\end{align*}
+	
+		Dann gilt
+		
+		\begin{align*}
+			LL^T = \begin{pmatrix}
+				P & 0 \\
+				l^T & \beta
+			\end{pmatrix} \begin{pmatrix}
+				P^T & l \\
+				0 & \beta
+			\end{pmatrix} = \begin{pmatrix}
+				PP^T & Pl \\
+				l^TP^T & l^Tl+\beta^2
+			\end{pmatrix} = \begin{pmatrix}
+				PP^T & Pl \\
+				(Pl)^T & l^Tl+\beta^2
+			\end{pmatrix} = \begin{pmatrix}
+				B & a \\
+				a^T & \alpha
+			\end{pmatrix} = A
+		\end{align*}
+	\end{itemize}
+	
+	
 \end{proof}
 
 \subsection*{Teilaufgabe 2b:}
