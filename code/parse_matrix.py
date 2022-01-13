@@ -1,14 +1,39 @@
 import numpy as np
+import math
+
 
 def is_square(matrix):
-    return False
+    return matrix.shape[0] == matrix.shape[1]
 
-def is_symmetrical(matrix):
-    return False
+
+def is_symmetrical(matrix, epsilon=1e-8):
+    return is_square(matrix) and np.all(np.abs(matrix - matrix.T) < epsilon)
 
 
 def is_positive_definite(matrix):
-    return False
+    return np.all(np.linalg.eigvals(matrix) > 0)
+
+
+def cholesky(matrix):
+    if not is_square(matrix):
+        raise Exception("matrix must be square")
+    if not is_symmetrical(matrix):
+        raise Exception("matrix must be symmetrical")
+    if not is_positive_definite(matrix):
+        raise Exception("matrix must be positive definite")
+
+    n = matrix.shape[0]
+    l = np.empty((n, n))
+
+    for k in range(n):
+        s = np.sum(l[k, j] * l[k, j] for j in range(k-1))
+        l[k, k] = math.sqrt(matrix[k, k] - s)
+
+        for i in range(k+1, n):
+            s = np.sum(l[i, j] * l[k, j] for j in range(k-1))
+            l[i, k] = (matrix[i, k] - s) / l[k, k]
+
+    return l
 
 
 class SkylineMatrix:

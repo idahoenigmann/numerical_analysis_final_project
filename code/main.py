@@ -2,8 +2,18 @@ import numpy as np
 import parse_matrix
 
 if __name__ == "__main__":
-    matrix = np.matrix([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]])
+    matrix = np.matrix([[5, 1], [1, 3]])
     print(matrix)
 
+    l = parse_matrix.cholesky(matrix)
+
+    #print(l)
+    print(np.dot(l, l.T))
+
+    """
+    print(parse_matrix.is_square(matrix))
+    print(parse_matrix.is_symmetrical(matrix))
+    print(parse_matrix.is_positive_definite(matrix))
+
     skyline_representation = parse_matrix.SkylineMatrix(matrix)
-    print(skyline_representation)
+    print(skyline_representation)"""
