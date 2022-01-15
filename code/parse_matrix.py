@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 
 def is_square(matrix):
@@ -14,21 +13,45 @@ def is_positive_definite(matrix):
     return np.all(np.linalg.eigvals(matrix) > 0)
 
 
-def generate_rand_SPD_matrix(dimension, decimal_presision=2):
-    matrix = np.empty((dimension, dimension))
+def print_matrix(matrix, decimal_precision=2):
+    n = len(matrix)
 
-    while not (is_symmetrical(matrix) and is_positive_definite(matrix)):
+    for i in range(n):
+        for j in range(n):
+            if round(matrix[i, j], decimal_precision) != 0:
+                print("{0:+.{1}f}".format(matrix[i, j], decimal_precision), end="  ")
+            else:
+                print(" " * len("{0:+.{1}f}".format(0, decimal_precision)), end="  ")
+        print()
+
+
+def generate_rand_SPD_matrix(dimension, decimal_precision=-1):
+    matrix = np.zeros((dimension, dimension))
+
+    while not is_positive_definite(matrix):
         matrix = np.random.rand(dimension, dimension)
 
-        for i in range(dimension):
-            for j in range(dimension):
-                scale = np.random.randint(-100, 100)
-                matrix[i, j] = matrix[i, j] * scale
-
         matrix = 0.5 * (matrix + matrix.T) + np.identity(dimension)
-        matrix = matrix.round(decimal_presision)
+        if decimal_precision >= 0:
+            matrix = matrix.round(decimal_precision)
 
     return np.matrix(matrix)
+
+
+def generate_rand_SPD_skyline_matrix(dimension, decimal_presision=-1):
+    matrix = np.zeros((dimension, dimension))
+
+    while not is_positive_definite(matrix):
+        matrix = generate_rand_SPD_matrix(dimension, decimal_presision)
+
+        for i in range(1, dimension):
+            if np.random.rand() < 0.3:
+                branch_len = np.random.randint(0, i)
+                for j in range(i - branch_len):
+                    matrix[i, j] = 0.
+                    matrix[j, i] = 0.
+
+    return matrix
 
 
 def cholesky(matrix):
@@ -40,7 +63,7 @@ def cholesky(matrix):
         raise Exception("matrix must be positive definite")
 
     n = matrix.shape[0]
-    l = np.empty((n, n))
+    l = np.zeros((n, n))
 
     for k in range(n):
         s = np.dot(l[k][:k], l[k][:k])
@@ -79,7 +102,7 @@ class SkylineMatrix:
         return self.__str__()
 
     def to_matrix(self):
-        matrix = np.empty((len(self.values), len(self.values)))
+        matrix = np.zeros((len(self.values), len(self.values)))
 
         k = 0
         for i in range(len(self.values)):
@@ -125,7 +148,7 @@ class SPDSkylineMatrix(SkylineMatrix):
             return 0
 
     def to_matrix(self):
-        matrix = np.empty((len(self.values), len(self.values)))
+        matrix = np.zeros((len(self.values), len(self.values)))
 
         for i in range(len(self.values)):
             for j in range(len(self.values[i])):
@@ -135,14 +158,15 @@ class SPDSkylineMatrix(SkylineMatrix):
         return matrix
 
     def cholesky(self):
-        l = np.empty((len(self.values), len(self.values)))
+        l = np.zeros((len(self.values), len(self.values)))
 
         for k in range(len(self.values)):
-            s = np.dot(l[k][:len(self.values[k]) - 1], l[k][:len(self.values[k]) - 1])
+            start_idx = k-len(self.values[k])+1
+            s = np.dot(l[k][start_idx:k], l[k][start_idx:k])
             l[k, k] = np.sqrt(self[k, k] - s)
 
             for i in range(k + 1, len(self.values)):
-                s = np.dot(l[i][:len(self.values[k]) - 1], l[k][:len(self.values[k]) - 1])
+                s = np.dot(l[i][start_idx:k], l[k][start_idx:k])
                 l[i, k] = (self[i, k] - s) / l[k, k]
 
         return l
