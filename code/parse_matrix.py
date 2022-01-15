@@ -55,24 +55,22 @@ def cholesky(matrix):
 
 class SkylineMatrix:
     values = list()
-    branch_lengths = list()
-    dimension = 0
 
     def __init__(self, matrix):
-        self.dimension = len(matrix)
+        for i in range(len(matrix)):
+            up_branch = (np.concatenate(matrix[:, i][:i + 1]).ravel().tolist())[0]
+            up_branch.reverse()
+            while len(up_branch) > 0 and up_branch[-1] == 0:
+                up_branch.pop(-1)
 
-        for i in range(self.dimension):
-            j = i                                       # up branch
-            while j >= 0 and (not matrix[j, i] == 0):
-                self.values.append(matrix[j, i])
-                j = j-1
-            up_branch_length = i - j
+            left_branch = []
+            if len(matrix[i][:i]) > 0:
+                left_branch = np.concatenate(matrix[i,:].ravel().tolist()).tolist()[0:i]
+            left_branch.reverse()
+            while len(left_branch) > 0 and left_branch[-1] == 0:
+                left_branch.pop(-1)
 
-            j = i - 1                                   # left branch
-            while j >= 0 and (not matrix[i, j] == 0):
-                self.values.append(matrix[i, j])
-                j = j-1
-            self.branch_lengths.append((up_branch_length, i - j))
+            self.values.append([up_branch, left_branch])
 
     def __str__(self):
         return self.to_matrix().__str__()
@@ -81,16 +79,16 @@ class SkylineMatrix:
         return self.__str__()
 
     def to_matrix(self):
-        matrix = np.empty((self.dimension, self.dimension))
+        matrix = np.empty((len(self.values), len(self.values)))
 
         k = 0
-        for i in range(self.dimension):
-            for j in range(self.branch_lengths[i][0]):      # up branch
-                matrix[i-j, i] = self.values[k]
-                k = k+1
-            for j in range(self.branch_lengths[i][1] - 1):  # left branch
-                matrix[i, i-j-1] = self.values[k]
-                k = k+1
+        for i in range(len(self.values)):
+            up_branch, left_branch = self.values[i]
+
+            for j in range(len(up_branch)):
+                matrix[i - j, i] = up_branch[j]
+            for k in range(len(left_branch)):
+                matrix[i, i - k - 1] = left_branch[k]
 
         return matrix
 
@@ -102,41 +100,40 @@ class SPDSkylineMatrix(SkylineMatrix):
         if not is_positive_definite(matrix):
             raise Exception("matrix must be positive definite")
 
-        self.dimension = len(matrix)
+        for i in range(len(matrix)):
+            branch = (np.concatenate(matrix[:, i][:i + 1]).ravel().tolist())[0]
+            branch.reverse()
+            while len(branch) > 0 and branch[-1] == 0:
+                branch.pop(-1)
 
-        for i in range(self.dimension):
-            j = i
-            while j >= 0 and (not matrix[j, i] == 0):
-                self.values.append(matrix[j, i])
-                j = j-1
-
-            self.branch_lengths.append(i - j)
+            self.values.append(branch)
 
     def __getitem__(self, item):
-        row, col = item
-        row, col = max(row, col), min(row, col)
+        row_idx, col_idx = item
+        row_idx, col_idx = min(row_idx, col_idx), max(row_idx, col_idx)
 
-        idx = np.sum(self.branch_lengths[i] for i in range(row))
+        if row_idx < 0 or col_idx > len(self.values):
+            raise Exception("index out of bounds")
 
-        if row - col <= self.branch_lengths[row]:
-            return self.values[idx + row - col]
+        col = self.values[col_idx]
+
+        if col_idx - row_idx < len(col):
+            return col[col_idx - row_idx]
         else:
             return 0
 
     def to_matrix(self):
-        matrix = np.empty((self.dimension, self.dimension))
+        matrix = np.empty((len(self.values), len(self.values)))
 
-        k = 0
-        for i in range(self.dimension):
-            for j in range(self.branch_lengths[i]):
-                matrix[i - j, i] = self.values[k]
-                matrix[i, i - j] = self.values[k]
-                k = k + 1
+        for i in range(len(self.values)):
+            for j in range(len(self.values[i])):
+                matrix[i - j, i] = self.values[i][j]
+                matrix[i, i - j] = self.values[i][j]
 
         return matrix
 
     def cholesky(self):
-        l = np.empty((self.dimension, self.dimension))
+        """l = np.empty((self.dimension, self.dimension))
 
         for k in range(self.dimension):
             s = np.sum(l[k, j] * l[k, j] for j in range(k - 1))
@@ -144,6 +141,6 @@ class SPDSkylineMatrix(SkylineMatrix):
 
             for i in range(k + 1, self.dimension):
                 s = np.sum(l[i, j] * l[k, j] for j in range(k - 1))
-                l[i, k] = (self[i, k] - s) / l[k, k]
+                l[i, k] = (self[i, k] - s) / l[k, k]"""
 
-        return l
+        return True
