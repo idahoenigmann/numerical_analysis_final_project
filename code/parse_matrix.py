@@ -43,11 +43,11 @@ def cholesky(matrix):
     l = np.empty((n, n))
 
     for k in range(n):
-        s = np.dot(l[k][:k-1], l[k][:k-1])
+        s = np.dot(l[k][:k], l[k][:k])
         l[k, k] = np.sqrt(matrix[k, k] - s)
 
         for i in range(k+1, n):
-            s = np.dot(l[i][:k-1], l[k][:k-1])
+            s = np.dot(l[i][:k], l[k][:k])
             l[i, k] = (matrix[i, k] - s) / l[k, k]
 
     return l
