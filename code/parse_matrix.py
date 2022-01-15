@@ -28,7 +28,7 @@ def generate_rand_SPD_matrix(dimension, decimal_presision=2):
         matrix = 0.5 * (matrix + matrix.T) + np.identity(dimension)
         matrix = matrix.round(decimal_presision)
 
-    return matrix
+    return np.matrix(matrix)
 
 
 def cholesky(matrix):
@@ -43,11 +43,11 @@ def cholesky(matrix):
     l = np.empty((n, n))
 
     for k in range(n):
-        s = np.sum(l[k, j] * l[k, j] for j in range(k-1))
-        l[k, k] = math.sqrt(matrix[k, k] - s)
+        s = np.dot(l[k][:k-1], l[k][:k-1])
+        l[k, k] = np.sqrt(matrix[k, k] - s)
 
         for i in range(k+1, n):
-            s = np.sum(l[i, j] * l[k, j] for j in range(k-1))
+            s = np.dot(l[i][:k-1], l[k][:k-1])
             l[i, k] = (matrix[i, k] - s) / l[k, k]
 
     return l
@@ -101,7 +101,9 @@ class SPDSkylineMatrix(SkylineMatrix):
             raise Exception("matrix must be positive definite")
 
         for i in range(len(matrix)):
-            branch = (np.concatenate(matrix[:, i][:i + 1]).ravel().tolist())[0]
+            branch = matrix[:, i][:i + 1].tolist()
+            if type(matrix) == np.matrix:
+                branch = (np.concatenate(matrix[:, i][:i + 1]).ravel().tolist())[0]
             branch.reverse()
             while len(branch) > 0 and branch[-1] == 0:
                 branch.pop(-1)
@@ -133,14 +135,14 @@ class SPDSkylineMatrix(SkylineMatrix):
         return matrix
 
     def cholesky(self):
-        """l = np.empty((self.dimension, self.dimension))
+        l = np.empty((len(self.values), len(self.values)))
 
-        for k in range(self.dimension):
-            s = np.sum(l[k, j] * l[k, j] for j in range(k - 1))
-            l[k, k] = math.sqrt(self[k, k] - s)
+        for k in range(len(self.values)):
+            s = np.dot(l[k][:len(self.values[k]) - 1], l[k][:len(self.values[k]) - 1])
+            l[k, k] = np.sqrt(self[k, k] - s)
 
-            for i in range(k + 1, self.dimension):
-                s = np.sum(l[i, j] * l[k, j] for j in range(k - 1))
-                l[i, k] = (self[i, k] - s) / l[k, k]"""
+            for i in range(k + 1, len(self.values)):
+                s = np.dot(l[i][:len(self.values[k]) - 1], l[k][:len(self.values[k]) - 1])
+                l[i, k] = (self[i, k] - s) / l[k, k]
 
-        return True
+        return l
