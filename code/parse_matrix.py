@@ -2,20 +2,6 @@ import numpy as np
 import math
 
 
-def generate_rand_SPD_matrix(dimension):
-    matrix = np.empty((dimension, dimension))
-
-    while not (is_symmetrical(matrix) and is_positive_definite(matrix)):
-        matrix = np.random.rand(dimension, dimension)
-        matrix = 0.5 * (matrix + matrix.T) + np.identity(dimension)
-        # for i in range(dimension):
-        #     for j in range(i + 1, dimension):
-        #         scale = np.random.randint(-10, 10)
-        #         matrix[i, j] = matrix[i, j] * scale
-        #         matrix[j, i] = matrix[j, i] * scale
-    return matrix
-
-
 def is_square(matrix):
     return matrix.shape[0] == matrix.shape[1]
 
@@ -26,6 +12,23 @@ def is_symmetrical(matrix, epsilon=1e-8):
 
 def is_positive_definite(matrix):
     return np.all(np.linalg.eigvals(matrix) > 0)
+
+
+def generate_rand_SPD_matrix(dimension, decimal_presision=2):
+    matrix = np.empty((dimension, dimension))
+
+    while not (is_symmetrical(matrix) and is_positive_definite(matrix)):
+        matrix = np.random.rand(dimension, dimension)
+
+        for i in range(dimension):
+            for j in range(dimension):
+                scale = np.random.randint(-100, 100)
+                matrix[i, j] = matrix[i, j] * scale
+
+        matrix = 0.5 * (matrix + matrix.T) + np.identity(dimension)
+        matrix = matrix.round(decimal_presision)
+
+    return matrix
 
 
 def cholesky(matrix):
