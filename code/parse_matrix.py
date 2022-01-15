@@ -1,5 +1,4 @@
 import numpy as np
-import pyriemann
 
 
 def is_square(matrix):
@@ -165,13 +164,16 @@ class SPDSkylineMatrix(SkylineMatrix):
     def cholesky(self):
         l = np.zeros((len(self.values), len(self.values)))
 
+        max_width = np.max(list(len(lst) for lst in self.values))
+
         for k in range(len(self.values)):
-            start_idx = k-len(self.values[k])+1
+            start_idx = k - len(self.values[k]) + 1
             s = np.dot(l[k][start_idx:k], l[k][start_idx:k])
             l[k, k] = np.sqrt(self[k, k] - s)
 
-            for i in range(k + 1, len(self.values)):
-                s = np.dot(l[i][start_idx:k], l[k][start_idx:k])
-                l[i, k] = (self[i, k] - s) / l[k, k]
+            for i in range(k + 1, min(k + max_width, len(self.values))):
+                if k > i - len(self.values[i]):
+                    s = np.dot(l[i][start_idx:k], l[k][start_idx:k])
+                    l[i, k] = (self[i, k] - s) / l[k, k]
 
         return l

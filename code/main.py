@@ -20,4 +20,4 @@ if __name__ == "__main__":
 
     parse_matrix.print_matrix(l1)
 
-    print(np.max(m1 - matrix))
+    print("absolute error: {}".format(np.max(m1 - matrix)))
