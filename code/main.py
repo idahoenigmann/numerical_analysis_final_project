@@ -3,7 +3,7 @@ import parse_matrix
 
 if __name__ == "__main__":
     np.set_printoptions(precision=1)
-    n = 100
+    n = 15
 
     matrix = parse_matrix.generate_rand_SPD_skyline_matrix(n)
     parse_matrix.print_matrix(matrix)

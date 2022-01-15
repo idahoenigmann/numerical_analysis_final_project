@@ -1,4 +1,5 @@
 import numpy as np
+import pyriemann
 
 
 def is_square(matrix):
@@ -10,7 +11,7 @@ def is_symmetrical(matrix, epsilon=1e-8):
 
 
 def is_positive_definite(matrix):
-    return np.all(np.linalg.eigvals(matrix) > 0)
+    return np.all(np.linalg.eigvals(matrix) > 0.001)
 
 
 def print_matrix(matrix, decimal_precision=2):
@@ -31,7 +32,11 @@ def generate_rand_SPD_matrix(dimension, decimal_precision=-1):
     while not is_positive_definite(matrix):
         matrix = np.random.rand(dimension, dimension)
 
-        matrix = 0.5 * (matrix + matrix.T) + np.identity(dimension)
+        matrix = 0.5 * (matrix + matrix.T)
+        eigvals, eigvecs = np.linalg.eigh(matrix)
+        eigvals = np.diag(np.abs(eigvals))
+        matrix = np.dot(np.dot(eigvecs, eigvals), eigvecs.T)
+
         if decimal_precision >= 0:
             matrix = matrix.round(decimal_precision)
 
@@ -45,7 +50,7 @@ def generate_rand_SPD_skyline_matrix(dimension, decimal_presision=-1):
         matrix = generate_rand_SPD_matrix(dimension, decimal_presision)
 
         for i in range(1, dimension):
-            if np.random.rand() < 0.3:
+            if np.random.rand() < 0.8:
                 branch_len = np.random.randint(0, i)
                 for j in range(i - branch_len):
                     matrix[i, j] = 0.
