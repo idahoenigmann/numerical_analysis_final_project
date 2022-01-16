@@ -49,11 +49,10 @@ def generate_rand_SPD_skyline_matrix(dimension, decimal_presision=-1):
         matrix = generate_rand_SPD_matrix(dimension, decimal_presision)
 
         for i in range(1, dimension):
-            if np.random.rand() < 0.8:
-                branch_len = np.random.randint(0, i)
-                for j in range(i - branch_len):
-                    matrix[i, j] = 0.
-                    matrix[j, i] = 0.
+            branch_len = min(i, round(abs(np.random.normal() * 4) + 1))
+            for j in range(i - branch_len):
+                matrix[i, j] = 0.
+                matrix[j, i] = 0.
 
     return matrix
 
@@ -70,11 +69,16 @@ def cholesky(matrix):
     l = np.zeros((n, n))
 
     for k in range(n):
-        s = np.dot(l[k][:k], l[k][:k])
+        s = 0
+        for j in range(k):
+            s += l[k, j] * l[k, j]
+
         l[k, k] = np.sqrt(matrix[k, k] - s)
 
         for i in range(k+1, n):
-            s = np.dot(l[i][:k], l[k][:k])
+            s = 0
+            for j in range(k):
+                s += l[i, j] * l[k, j]
             l[i, k] = (matrix[i, k] - s) / l[k, k]
 
     return l
