@@ -8,6 +8,7 @@
 \usepackage{multirow}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{graphicx}
 
 \renewcommand*{\proofname}{Beweis}
 \newenvironment{ausarbeitung}{\vspace{3mm}\noindent\textit{Ausarbeitung.}}{}
@@ -262,32 +263,38 @@ Verwenden Sie den Cholesky-Algorithmus aus der Vorlesung. Entwerfen Sie jeweils 
 möglichst effizient die Struktur erkennt.
 
 \begin{lstlisting}[language=Python, caption=Strukturerkennung einer Skyline-Matrix]
-	values = list()
-	
-	for i in range(dim(matrix)):
-	    up_branch = matrix[:, i][:i + 1]
-	    up_branch.reverse()
-	    while not up_branch.empty and up_branch[-1] == 0:
-	        up_branch.pop(-1)
-	
-	    left_branch = matrix[i, :][:i]
-	    left_branch.reverse()
-	    while not left_branch.empty and left_branch[-1] == 0:
-	        left_branch.pop(-1)
-	
-	    values.append([up_branch, left_branch])
+	def to_skyline(matrix):
+		values = list()
+		
+		for i in range(dim(matrix)):
+		    up_branch = matrix[:, i][:i + 1]
+		    up_branch.reverse()
+		    while not up_branch.empty and up_branch[-1] == 0:
+		        up_branch.pop(-1)
+		
+		    left_branch = matrix[i, :][:i]
+		    left_branch.reverse()
+		    while not left_branch.empty and left_branch[-1] == 0:
+		        left_branch.pop(-1)
+		
+		    values.append([up_branch, left_branch])
+		    
+		return values
 \end{lstlisting}
 
 \begin{lstlisting}[language=Python, caption=Strukturerkennung einer symmetrischen positiv definiten Skyline-Matrix]
-	values = list()
+	def to_spd_skyline(matrix):
+	    values = list()
 	
-	for i in range(dim(matrix)):
-	    branch = matrix[:, i][:i + 1]
-	    branch.reverse()
-	    while not branch.empty and branch[-1] == 0:
-	        branch.pop(-1)
+	    for i in range(dim(matrix)):
+	        branch = matrix[:, i][:i + 1]
+	        branch.reverse()
+	        while not branch.empty and branch[-1] == 0:
+	            branch.pop(-1)
 	
-	    values.append(branch)
+	        values.append(branch)
+	        
+	    return values
 \end{lstlisting}
 
 \subsection*{Teilaufgabe 3b:}
@@ -316,7 +323,7 @@ die Cholesky-Zerlegung berechnet.
 \end{lstlisting}
 
 \begin{lstlisting}[language=Python, caption=optimierter Algorithmus für die Cholesky Zerlegung einer Skyline-Matrix]
-	def cholesky(values):
+	def cholesky_skyline(values):
 	    n = len(values)
 	    l = zero matrix of dimension n by n
 	
@@ -327,10 +334,10 @@ die Cholesky-Zerlegung berechnet.
 	        s = np.dot(l[k][start_idx:k], l[k][start_idx:k])
 	        l[k, k] = sqrt(self[k, k] - s)
 	
-	    for i in range(k + 1, min(k + max_width, n)):
-	        if k > i - len(values[i]):
-	            s = np.dot(l[i][start_idx:k], l[k][start_idx:k])
-	            l[i, k] = (self[i, k] - s) / l[k, k]
+	        for i in range(k + 1, min(k + max_width, n)):
+	            if k > i - len(values[i]):
+	                s = np.dot(l[i][start_idx:k], l[k][start_idx:k])
+	                l[i, k] = (self[i, k] - s) / l[k, k]
 	
 	    return l
 \end{lstlisting}
@@ -339,7 +346,15 @@ die Cholesky-Zerlegung berechnet.
 \subsection*{Teilaufgabe 4a:}
 Sei $A \in \mathbb{R}^{n\times n}$ eine Skyline-Matrix. Welchen Aufwand haben Ihre Algorithmen aus Aufgabe 3 in Abhängigkeit von der Größe $n$ der Eingabedaten und Skyline-Indices $p_l = q_l$?
 
-TODO Aufwand bestimmen
+$min := min\{p_l : l \in \{1, ..., n\}\}$
+$max := max\{p_l : l \in \{1, ..., n\}\}$
+
+\texttt{to\_skyline} und \texttt{to\_spd\_skyline} hat Aufwand $\mathcal{O}(n (n - min))$
+
+\texttt{cholesky} hat Aufwand $\mathcal{O}(n^3)$
+
+\texttt{cholesky\_skyline} hat Aufwand $\mathcal{O}(n\cdot max)$ wobei die zeitaufwändige Berechnung in Zeile 14 nur durchgeführt wird, falls diese nach dem Ergebnis aus Aufgabe 2b nicht $0$ ist.
+
 
 \subsection*{Teilaufgabe 4b:}
 Betrachten Sie Matrizen mit den Besetzungsstrukturen
@@ -402,5 +417,13 @@ Welche Besetzungsstruktur hat die Cholesky-Zerlegung für beide Matrizen? Was k�
 Implementieren Sie Ihren modifizierten Cholesky-Algorithmus in Python und weisen Sie empirisch nach, dass der Aufwand linear in $n$ wächst. Vergleichen Sie die Performance Ihrer Implementierung mit der Python-Funktion \texttt{scipy.linalg.cholesky}, wobei die Skyline-Matrix $A$ als vollbesetzte Matrix gespeichert ist.
 
 TODO Anhang Python-Code (+ Grafik Performance?)
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{aufwand_cholesky}
+	\caption{Aufwand \texttt{cholesky\_skyline} in blau und \texttt{linalg.choleksy} in rot; beides mit einer linearen Trendlinie}
+	\label{fig:aufwandcholesky}
+\end{figure}
+
 
 \end{document}
