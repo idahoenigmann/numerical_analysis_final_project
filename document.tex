@@ -6,9 +6,38 @@
 \usepackage{enumitem}
 \usepackage{amsthm}
 \usepackage{multirow}
+\usepackage{listings}
+\usepackage{xcolor}
 
 \renewcommand*{\proofname}{Beweis}
 \newenvironment{ausarbeitung}{\vspace{3mm}\noindent\textit{Ausarbeitung.}}{}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
 
 %opening
 \title{Abschlussprojekt}
@@ -98,20 +127,20 @@ Folgendes Beispiel illustriert diese Aussage:
 Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es wird nicht durch Null dividiert oder die Wurzel aus einer negativen Zahl gezogen), wenn die Matrix $A \in \mathbb{R}^{n\times n}$ symmetrisch und positiv definit ist.
 
 \begin{proof}
-	Wir wiederholen zuerst die Definitionen von symmetrischen und positiv definitiven Matrizen.
+	Wir wiederholen zuerst die relevanten Definitionen.
 	
 	Eine Matrix $A \in \mathbb{R}^{n\times n}$ heißt symmetrisch, falls $A = A^T$.
 	
 	Eine Matrix $A \in \mathbb{R}^{n\times n}$ heißt positiv definit, falls $\forall u \in \mathbb{R}^n\setminus\{0\}: u^T A u > 0$.
 	
-	Wir zeigen $A \in \mathbb{K}^{n\times n}$ symmetrisch und positiv definit impliziert $\exists L \in \mathbb{R}^{n\times n}$ untere Dreiecksmatrix mit $LL^T=A$ durch vollständige Induktion nach $n$.
+	Wir zeigen $\forall A \in \mathbb{K}^{n\times n}$ symmetrisch und positiv definit $\exists L \in \mathbb{R}^{n\times n}$ untere Dreiecksmatrix $: LL^T=A$ durch vollständige Induktion nach $n$.
 	
 	\begin{itemize}
 		\item \textbf{Induktionsanfang:} $n=1$
 		
 		Wenn $A := \begin{pmatrix}
 			a_{11}
-		\end{pmatrix} \in \mathbb{R}^{1\times 1}$ eine symmetrische und positiv definite Matrix ist, folgt aus positiv definit, dass für
+		\end{pmatrix} \in \mathbb{R}^{1\times 1}$ eine beliebige symmetrische und positiv definite Matrix ist, folgt aus positiv definit, dass für
 	
 		\begin{align*}
 			u := \begin{pmatrix}
@@ -125,9 +154,9 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 			\end{pmatrix} = a_{11}
 		\end{align*}
 	
-		Definieren wir nun $L := \begin{pmatrix}
+		Da also $a_{11} > 0$ gilt, ist $L := \begin{pmatrix}
 			\sqrt{a_{11}}
-		\end{pmatrix} \in \mathbb{R}^{1}$, dann gilt
+		\end{pmatrix} \in \mathbb{R}^{1}$ wohldefiniert. Dann gilt
 	
 		\begin{align*}
 			LL^T = \begin{pmatrix}
@@ -139,7 +168,7 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 			\end{pmatrix} = A
 		\end{align*}
 	
-		\item \textbf{Induktionsvoraussetzung:} $\forall A \in \mathbb{R}^{n \times n}$ symmetrisch und positiv definit gilt $\exists L \in \mathbb{R}^{n\times n}$ untere Dreiecksmatrix mit $LL^T=A$.
+		\item \textbf{Induktionsvoraussetzung:} $\forall A \in \mathbb{R}^{n \times n}$ symmetrisch und positiv definit $\exists L \in \mathbb{R}^{n\times n}$ untere Dreiecksmatrix $:LL^T=A$.
 		
 		\item \textbf{Induktionsschritt:} $n-1 \implies n$
 		
@@ -167,6 +196,8 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 			&= \alpha - a^T (PP^T)^{-1}a = \alpha - a^T B^{-1}a
 		\end{align*}
 	
+		Da $A$ positiv definit ist ergibt sich
+	
 		\begin{align*}
 			0 < \begin{pmatrix}
 				-B^{-1}a\\
@@ -183,7 +214,7 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 			\alpha - a^T B^{-1} a
 		\end{align*}
 	
-		Also können wir $\beta := \sqrt{\alpha - l^Tl}$ setzen. Dann gilt $l^Tl + \beta^2 = \alpha$.
+		Also ist $\beta := \sqrt{\alpha - l^Tl}$ wohldefiniert. Umgeformt gilt nun $l^Tl + \beta^2 = \alpha$.
 		
 		Definieren wir nun $L \in \mathbb{R}^{n\times n}$ durch
 		
@@ -216,7 +247,6 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 		\end{align*}
 	\end{itemize}
 	
-	
 \end{proof}
 
 \subsection*{Teilaufgabe 2b:}
@@ -231,12 +261,79 @@ Verwenden Sie den Cholesky-Algorithmus aus der Vorlesung. Entwerfen Sie jeweils 
 \subsection{Teilaufgabe 3a:}
 möglichst effizient die Struktur erkennt.
 
-TODO Pseudocode
+\begin{lstlisting}[language=Python, caption=Strukturerkennung einer Skyline-Matrix]
+	values = list()
+	
+	for i in range(dim(matrix)):
+	    up_branch = matrix[:, i][:i + 1]
+	    up_branch.reverse()
+	    while not up_branch.empty and up_branch[-1] == 0:
+	        up_branch.pop(-1)
+	
+	    left_branch = matrix[i, :][:i]
+	    left_branch.reverse()
+	    while not left_branch.empty and left_branch[-1] == 0:
+	        left_branch.pop(-1)
+	
+	    values.append([up_branch, left_branch])
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=Strukturerkennung einer symmetrischen positiv definiten Skyline-Matrix]
+	values = list()
+	
+	for i in range(dim(matrix)):
+	    branch = matrix[:, i][:i + 1]
+	    branch.reverse()
+	    while not branch.empty and branch[-1] == 0:
+	        branch.pop(-1)
+	
+	    values.append(branch)
+\end{lstlisting}
 
 \subsection*{Teilaufgabe 3b:}
 die Cholesky-Zerlegung berechnet.
 
-TODO Pseudocode aufschreiben
+\begin{lstlisting}[language=Python, caption=Algorithmus für die Cholesky Zerlegung einer Matrix]
+	def cholesky(matrix):	
+	    n = dim(matrix)
+	    l = zero matrix of dimension n by n
+	
+	    for k in range(n):
+	        s = 0
+	        for j in range(k):
+	            s += l[k, j] * l[k, j]
+	
+	        l[k, k] = sqrt(matrix[k, k] - s)
+	
+	        for i in range(k+1, n):
+	            s = 0
+	            for j in range(k):
+	                s += l[i, j] * l[k, j]
+	                
+	            l[i, k] = (matrix[i, k] - s) / l[k, k]
+	
+	    return l
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=optimierter Algorithmus für die Cholesky Zerlegung einer Skyline-Matrix]
+	def cholesky(values):
+	    n = len(values)
+	    l = zero matrix of dimension n by n
+	
+	    max_width = max(len(branch) for branch in values)
+	
+	    for k in range(n):
+	        start_idx = k - len(values[k]) + 1
+	        s = np.dot(l[k][start_idx:k], l[k][start_idx:k])
+	        l[k, k] = sqrt(self[k, k] - s)
+	
+	    for i in range(k + 1, min(k + max_width, n)):
+	        if k > i - len(values[i]):
+	            s = np.dot(l[i][start_idx:k], l[k][start_idx:k])
+	            l[i, k] = (self[i, k] - s) / l[k, k]
+	
+	    return l
+\end{lstlisting}
 
 \section*{Aufgabe 4: Aufwand des Algorithmus und Verhalten in Spezialfällen}
 \subsection*{Teilaufgabe 4a:}
