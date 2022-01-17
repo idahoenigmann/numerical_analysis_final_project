@@ -25,7 +25,7 @@ def print_matrix(matrix, decimal_precision=2):
         print()
 
 
-def generate_rand_SPD_matrix(dimension, decimal_precision=-1):
+def generate_rand_spd_matrix(dimension, decimal_precision=-1):
     matrix = np.zeros((dimension, dimension))
 
     while not is_positive_definite(matrix):
@@ -42,14 +42,14 @@ def generate_rand_SPD_matrix(dimension, decimal_precision=-1):
     return np.matrix(matrix)
 
 
-def generate_rand_SPD_skyline_matrix(dimension, decimal_presision=-1):
+def generate_rand_spd_skyline_matrix(dimension, decimal_presision=-1, avg_branch_len=4):
     matrix = np.zeros((dimension, dimension))
 
     while not is_positive_definite(matrix):
-        matrix = generate_rand_SPD_matrix(dimension, decimal_presision)
+        matrix = generate_rand_spd_matrix(dimension, decimal_presision)
 
         for i in range(1, dimension):
-            branch_len = min(i, round(abs(np.random.normal() * 4) + 1))
+            branch_len = min(i, round(abs(np.random.normal() * avg_branch_len) + 1))
             for j in range(i - branch_len):
                 matrix[i, j] = 0.
                 matrix[j, i] = 0.
@@ -89,14 +89,12 @@ class SkylineMatrix:
 
     def __init__(self, matrix):
         for i in range(len(matrix)):
-            up_branch = (np.concatenate(matrix[:, i][:i + 1]).ravel().tolist())[0]
+            up_branch = ((matrix[:, i][:i + 1]).T).tolist()[0]
             up_branch.reverse()
             while len(up_branch) > 0 and up_branch[-1] == 0:
                 up_branch.pop(-1)
 
-            left_branch = []
-            if len(matrix[i][:i]) > 0:
-                left_branch = np.concatenate(matrix[i,:].ravel().tolist()).tolist()[0:i]
+            left_branch = [] if len(matrix[i][:i]) == 0 else (matrix[i, :][:i]).tolist()[0]
             left_branch.reverse()
             while len(left_branch) > 0 and left_branch[-1] == 0:
                 left_branch.pop(-1)
@@ -112,7 +110,6 @@ class SkylineMatrix:
     def to_matrix(self):
         matrix = np.zeros((len(self.values), len(self.values)))
 
-        k = 0
         for i in range(len(self.values)):
             up_branch, left_branch = self.values[i]
 
@@ -132,9 +129,7 @@ class SPDSkylineMatrix(SkylineMatrix):
             raise Exception("matrix must be positive definite")
 
         for i in range(len(matrix)):
-            branch = matrix[:, i][:i + 1].tolist()
-            if type(matrix) == np.matrix:
-                branch = (np.concatenate(matrix[:, i][:i + 1]).ravel().tolist())[0]
+            branch = (matrix[:, i][:i + 1].T).tolist()[0]
             branch.reverse()
             while len(branch) > 0 and branch[-1] == 0:
                 branch.pop(-1)

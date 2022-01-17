@@ -19,13 +19,17 @@ def measure_time_cholesky(matrix):
 
 if __name__ == "__main__":
     np.set_printoptions(precision=1)
-    n = 50
+    n = 10
     if (len(sys.argv) > 1):
       n = int(sys.argv[1])
 
-    matrix = parse_matrix.generate_rand_SPD_skyline_matrix(n)
+    matrix = parse_matrix.generate_rand_spd_skyline_matrix(n)
 
-    parse_matrix.print_matrix(matrix)
+    # parse_matrix.print_matrix(matrix)
 
-    time_ssm, time_nor, time_linalg = measure_time_cholesky(matrix)
-    print("{:}, {:}, {:}".format(time_ssm, time_nor, time_linalg))
+    # time_ssm, time_nor, time_linalg = measure_time_cholesky(matrix)
+    # print("{:}, {:}, {:}, {:}".format(n, time_ssm, time_nor, time_linalg))
+
+    ssm = parse_matrix.SPDSkylineMatrix(matrix)
+    l = ssm.cholesky()
+    print(np.max(matrix - np.matmul(l, l.T)))
