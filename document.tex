@@ -346,14 +346,37 @@ die Cholesky-Zerlegung berechnet.
 \subsection*{Teilaufgabe 4a:}
 Sei $A \in \mathbb{R}^{n\times n}$ eine Skyline-Matrix. Welchen Aufwand haben Ihre Algorithmen aus Aufgabe 3 in Abhängigkeit von der Größe $n$ der Eingabedaten und Skyline-Indices $p_l = q_l$?
 
-$min := min\{p_l : l \in \{1, ..., n\}\}$
-$max := max\{p_l : l \in \{1, ..., n\}\}$
-
-\texttt{to\_skyline} und \texttt{to\_spd\_skyline} hat Aufwand $\mathcal{O}(n (n - min))$
-
-\texttt{cholesky} hat Aufwand $\mathcal{O}(n^3)$
-
-\texttt{cholesky\_skyline} hat Aufwand $\mathcal{O}(n\cdot max)$ wobei die zeitaufwändige Berechnung in Zeile 14 nur durchgeführt wird, falls diese nach dem Ergebnis aus Aufgabe 2b nicht $0$ ist.
+\begin{ausarbeitung}
+	
+	\begin{itemize}
+		\item \texttt{to\_skyline} hat wegen den Schleifen in Zeile 4, 7 und 12 Aufwand $\sum_{l=1}^{n} (n-p_l)+(n-q_l) = 2n^2-\sum_{l=1}^{n}p_l+q_l$.
+		\begin{itemize}
+			\item best case: Im besten Fall sind $p_l = l$ und $q_l = l$ also maximal, was zu einem Aufwand von $2n^2-\sum_{l=1}^{n}2l = 2n^2 - 2\frac{n(n+1)}{2} = 2n^2-(n^2+n) = n^2 - n$ führt
+			\item worst case: Im schlechtesten Fall sind $p_l=0$ und $q_l = 0$ also minimal, was in zu einem Aufwand von $2n^2 - \sum_{l=1}^{n}0 = 2n^2$ führt
+		\end{itemize}
+		
+		\item \texttt{to\_spd\_skyline} hat wegen den Schleifen in Zeile 4 und 7 Aufwand $\sum_{l=1}^{n}(n-p_l) = n^2 - \sum_{l=1}^{n}p_l$
+		\begin{itemize}
+			\item best case: Im besten Fall ist $p_l = l$ also maximal, was zu einem Aufwand von $n^2 - \sum_{l=1}^{n}l = n^2 - \frac{n(n+1)}{2} = n^2 - \frac{1}{2}n^2 - \frac{1}{2}n = \frac{1}{2}(n^2-n)$ führt
+			\item worst case: Im schlechtesten Fall ist $p_l=1$ also minimal, was in zu einem Aufwand von $n^2 - \sum_{l=1}^{n}1 = n^2 - n$ führt
+		\end{itemize}
+	
+		\item \texttt{cholesky} hat wegen den Schleifen in Zeile 5, 7, 12 und 14 Aufwand $\sum_{k=1}^{n}(k + \sum_{i=k+1}^{n}k) = \sum_{k=1}^{n}(k+k(n-k)) = \sum_{k=1}^{n}k + \sum_{k=1}^{n}kn - \sum_{k=1}^{n}k^2 = \frac{n(n+1)}{2} + \frac{n^2(n+1)}{2} - \frac{n(n+1)(2n+1)}{6} = \frac{1}{6}n^3 + \frac{1}{2}n^2 + \frac{1}{3}n$ also $\mathcal{O}(n^3)$
+		
+		\item \texttt{cholesky\_skyline} Zeilen 9 und 14 haben Aufwand $\mathcal{O}(p_k)$, da die beiden Vektoren Länge $k - start\_idx + 1 = k - (k - p_k + 1) + 1 = p_k$ haben und sind somit, neben Zeile 5 mit Aufwand von $\mathcal{O}(n)$, die aufwändigsten Zeilen in der Funktion.
+		
+		Durch das if-Statement in Zeile 13 wird sichergestellt, dass der Aufwand nur anfällt, falls nach Aufgabe 2b das Ergebnis nicht trivial ist.
+		
+		Die Einschränkung in Zeile 12 auf den Bereich \texttt{range(k+1, k+max\_width)} statt \texttt{range(k+1, n)} ermöglicht es viele der if-Statements zu ersparen, die es dem Python-Interpreter erschweren die Ausführung zu optimieren\footnote{If-Statements ermöglichen es nicht die Instruction Pipeline vollständig auszunützen und verlangsamen dadurch die Ausführung. In modernen Systemen wird daher sogenannte Branch Prediction durchgeführt die versucht vorherzusagen ob die Bedingung wahr ist.}.
+		
+		Insgesamt ist der Aufwand also $n + \sum_{k=1}^{n} \sum_{l=1}^{p_k}p_k = n + \sum_{k=1}^{n} p_k^2$ was  
+		\begin{itemize}
+			\item im besten Fall $n + \sum_{k=1}^{n} 1 = 2n$ und
+			\item im schlechtesten Fall $n + \sum_{k=1}^{n}k^2 = n + \frac{n(n+1)(2n+1)}{6} = \frac{1}{3}n^3 + \frac{1}{2}n^2 + \frac{7}{6}n$ ist.
+		\end{itemize}
+	\end{itemize}
+	
+\end{ausarbeitung}
 
 
 \subsection*{Teilaufgabe 4b:}
@@ -380,50 +403,61 @@ Betrachten Sie Matrizen mit den Besetzungsstrukturen
 Welche Besetzungsstruktur hat die Cholesky-Zerlegung für beide Matrizen? Was könnte man machen, um für Matrizen mit der ''linken'' Besetzungsstruktur die Cholesky-Zerlegung effizienter zu berechnen?
 
 \begin{ausarbeitung}
-	Die linke Matrix ist vollbesetzt als Skyline-Matrix, in dem Sinne, dass $\forall k \in \{1, ..., n\}: p_k = q_k = k-1$ also immer den maximal möglichen Wert annimmt.
+	Die linke Matrix ist vollbesetzt als Skyline-Matrix, in dem Sinne, dass $\forall k \in \{1, ..., n\}: p_k = q_k = k$ also immer den maximal möglichen Wert annimmt.
 	
-	Die rechte Matrix hat die Skyline-Indizes $\forall k \in \{1, ..., n - 1\}: p_k = q_k = 0$ und $p_n = q_n = n - 1$ und ist daher nach Aufgabe 4a effizienter in der Berechnung der Cholesky-Zerlegung.
+	Die rechte Matrix hat die Skyline-Indizes $\forall k \in \{1, ..., n - 1\}: p_k = q_k = 1$ und $p_n = q_n = n$ und ist daher nach Aufgabe 4a effizienter in der Berechnung der Cholesky-Zerlegung.
 	
 	Eine effiziente Berechnung der Cholesky-Zerlegung der linken Matrix erhält man mit folgender Überlegung:
 	
-	Definieren wir eine Abbildung $\sigma: \mathbb{R}^{n\times n} \rightarrow \mathbb{R}^{n \times n}$ die einer Matrix $A$ die ''gespiegelte'' Matrix $\sigma(A)$ zuordnet wobei $\sigma(A)_{i,j} := A_{n+1-j, n+1-i}$.
+	Definieren wir eine Abbildung $\sigma: \mathbb{R}^{n\times n} \rightarrow \mathbb{R}^{n \times n}$ die einer Matrix $A$ die ''gespiegelte'' Matrix $\sigma(A)$ zuordnet wobei $(\sigma(A))_{i,j} := A_{n+1-j, n+1-i}$.
 	
-	Die Umkehrabbildung $\sigma^{-1} = \sigma$, da
+	$\sigma$ hat folgende Eigenschaften: Für beliebige $A,B \in \mathbb{R}^{n \times n}$ gilt
 	
-	\begin{align*}
-		\sigma(\sigma(A))_{ij} = \sigma(A)_{n+1-j,n+1-i} = A_{n+1-(n+1-i),n+1-(n+1-j)} = A_{i,j}
-	\end{align*}
-
-	Weiters gilt für $A,B \in \mathbb{R}^{n \times n}$
-	
-	\begin{align*}
-		\sigma(A^T)_{i,j} = A^T_{n+1-j,n+1-i} = A_{n+1-i,n+1-j} = \sigma(A)_{j,i} = \sigma(A)^T_{i,j} \\
-		(\sigma(A)\sigma(B))_{i,j} = \sum_{k=1}^{n}\sigma(A)_{i,k}\sigma(B)_{k,j} = \sum_{k=1}^{n} A_{n+1-k,n+1-i}B_{n+1-j,n+1-k} \\
-		= \sum_{k=1}^{n} B_{n+1-j,k}A_{k,n+1-i} = (BA)_{n+1-j,n+1-i} = \sigma(BA)_{i,j}
-	\end{align*}
-
-	da $k \mapsto n+1-k$ eine Permutation von $\{1, .., n\}$ ist.
-
-	Wenn $A$ eine untere Dreiecksmatrix ist, also $A_{i,j} = 0$ für $i < j$, so folgt, dass $\sigma(A)$ auch eine untere Dreiecksmatrix ist, da $i < j \iff n+1-j < n+1-i$.
-	
-	Wenn $A$ symmetrisch ist, so ist auch $\sigma(A)$ symmetrisch, da $\sigma(A)_{i,j} = A_{n+1-j,n+1-i} = A_{n+1-i,n+1-j} = \sigma(A)_{j,i}$.
+	\begin{itemize}
+		\item Die Umkehrabbildung $\sigma^{-1} = \sigma$, da
+			\begin{align*}
+				\sigma(\sigma(A))_{ij} = \sigma(A)_{n+1-j,n+1-i} = A_{n+1-(n+1-i),n+1-(n+1-j)} = A_{i,j}
+			\end{align*}
+		
+		\item Verträglich mit Transponieren
+			\begin{align*}
+				\sigma(A^T)_{i,j} = A^T_{n+1-j,n+1-i} = A_{n+1-i,n+1-j} = \sigma(A)_{j,i} = \sigma(A)^T_{i,j}
+			\end{align*}
+		\item Verträglich mit Multiplizieren
+			\begin{align*}
+				(\sigma(A)\sigma(B))_{i,j} &= \sum_{k=1}^{n}\sigma(A)_{i,k}\sigma(B)_{k,j} = \sum_{k=1}^{n} A_{n+1-k,n+1-i}B_{n+1-j,n+1-k} \\
+				&= \sum_{k=1}^{n} B_{n+1-j,k}A_{k,n+1-i} = (BA)_{n+1-j,n+1-i} = \sigma(BA)_{i,j}
+			\end{align*}
+		
+			da $k \mapsto n+1-k$ eine Permutation von $\{1, .., n\}$ ist.
+		\item Dreiecksmatrix bleibt erhalten
+		
+		Wenn $A$ eine untere Dreiecksmatrix ist, also $A_{i,j} = 0$ für $i < j$, so folgt, dass $\sigma(A)$ auch eine untere Dreiecksmatrix ist, da $i < j \iff n+1-j < n+1-i$.
+		
+		\item Symmetrie bleibt erhalten
+		
+		Wenn $A$ symmetrisch ist, so ist auch $\sigma(A)$ symmetrisch, da $\sigma(A)_{i,j} = A_{n+1-j,n+1-i} = A_{n+1-i,n+1-j} = \sigma(A)_{j,i}$.	
+	\end{itemize}
 
 	Sei $A$ eine Matrix von der linken, ungünstigen Art. Dann ist $\sigma(A)$ von der rechten Art, und ist es ist daher möglich die Cholesky-Zerlegung von $\sigma(A)$ effizient zu berechnen. Sei $L$ eben diese Zerlegung von $\sigma(A)$, d.h. $LL^T=\sigma(A)$.
 	
 	Nach dem oben gezeigten gilt nun $\sigma(L)^T\sigma(L) = \sigma(L^T)\sigma(L) = \sigma(LL^T) = \sigma(\sigma(A)) = A$. Womit wir eine Cholesky-Zerlegung von $A$ erhalten.
 \end{ausarbeitung}
 
+
 \section*{Aufgabe 5: Implementierung des Algorithmus und empirische Aufwandsschätzung}
 Implementieren Sie Ihren modifizierten Cholesky-Algorithmus in Python und weisen Sie empirisch nach, dass der Aufwand linear in $n$ wächst. Vergleichen Sie die Performance Ihrer Implementierung mit der Python-Funktion \texttt{scipy.linalg.cholesky}, wobei die Skyline-Matrix $A$ als vollbesetzte Matrix gespeichert ist.
 
-TODO Anhang Python-Code (+ Grafik Performance?)
-
-\begin{figure}
-	\centering
-	\includegraphics[width=\linewidth]{aufwand_cholesky}
-	\caption{Aufwand \texttt{cholesky\_skyline} in blau und \texttt{linalg.choleksy} in rot; beides mit einer linearen Trendlinie}
-	\label{fig:aufwandcholesky}
-\end{figure}
-
+\begin{ausarbeitung}
+	TODO Anhang Python-Code (+ Grafik Performance?)
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=\linewidth]{aufwand_cholesky}
+		\caption{Aufwand \texttt{cholesky\_skyline} in blau und \texttt{linalg.choleksy} in rot; beides mit einer linearen Trendlinie}
+		\label{fig:aufwandcholesky}
+	\end{figure}
+	
+\end{ausarbeitung}
 
 \end{document}

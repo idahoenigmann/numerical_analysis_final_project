@@ -17,7 +17,7 @@ def measure_time_cholesky(matrix):
 if __name__ == "__main__":
     n = int(sys.argv[1]) if len(sys.argv) > 1 else 100
 
-    random_matrix = matrix_utils.generate_rand_spd_skyline_matrix(n, 2)
+    random_matrix = matrix_utils.generate_rand_spd_skyline_matrix(n, 5)
 
     time_ssm, time_nor, time_linalg = measure_time_cholesky(random_matrix)
     print("{:}, {:}, {:}, {:}".format(n, time_ssm, time_nor, time_linalg))
