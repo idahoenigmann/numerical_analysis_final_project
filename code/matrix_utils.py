@@ -42,17 +42,24 @@ def generate_rand_spd_matrix(dimension, decimal_precision=-1):
     return np.matrix(matrix)
 
 
-def generate_rand_spd_skyline_matrix(dimension, decimal_presision=-1, avg_branch_len=4):
+def generate_rand_spd_skyline_matrix(dimension, avg_branch_len=3, decimal_precision=-1):
     matrix = np.zeros((dimension, dimension))
 
     while not is_positive_definite(matrix):
-        matrix = generate_rand_spd_matrix(dimension, decimal_presision)
+        matrix = np.zeros((dimension, dimension))
+        branch_len = np.random.binomial(4 * avg_branch_len, 0.25, size=dimension)
+        for i in range(dimension):
+            len = np.clip(branch_len[i], 1, i + 1)
+            branch = np.random.rand(len)
+            matrix[i, i - len + 1: i + 1] = branch
 
-        for i in range(1, dimension):
-            branch_len = min(i, round(abs(np.random.normal() * avg_branch_len) + 1))
-            for j in range(i - branch_len):
-                matrix[i, j] = 0.
-                matrix[j, i] = 0.
+        matrix = (matrix + matrix.T)
+        eigvals, eigvecs = np.linalg.eigh(matrix)
+        eigvals = np.diag(np.abs(eigvals))
+        matrix = np.dot(np.dot(eigvecs, eigvals), eigvecs.T)
+
+        if decimal_precision >= 0:
+            matrix = matrix.round(decimal_precision)
 
     return matrix
 

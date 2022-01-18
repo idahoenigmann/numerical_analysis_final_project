@@ -11,7 +11,7 @@ class SPDSkylineMatrix(SkylineMatrix):
             raise Exception("matrix must be positive definite")
 
         for i in range(len(matrix)):
-            branch = matrix[:, i][:i + 1].T.tolist()[0]
+            branch = matrix[:, i][:i + 1].T.tolist()
             branch.reverse()
             while len(branch) > 0 and branch[-1] == 0:
                 branch.pop(-1)
