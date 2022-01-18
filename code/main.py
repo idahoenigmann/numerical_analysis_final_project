@@ -15,9 +15,20 @@ def measure_time_cholesky(matrix):
 
 
 if __name__ == "__main__":
-    n = int(sys.argv[1]) if len(sys.argv) > 1 else 100
+    # generate matrix
+    """for b in range(1, 10):
+        random_matrix = matrix_utils.generate_rand_spd_skyline_matrix(n, b)
+        np.savetxt("matrix_" + str(b) + ".csv", random_matrix, delimiter=",")"""
 
-    random_matrix = matrix_utils.generate_rand_spd_skyline_matrix(n, 3)
+    random_matrix = np.loadtxt("matrix_7.csv", delimiter=",")
 
-    time_ssm, time_nor, time_linalg = measure_time_cholesky(random_matrix)
-    print("{:}, {:}, {:}, {:}".format(n, time_ssm, time_nor, time_linalg))
+    # n = int(sys.argv[1]) * 10 if len(sys.argv) > 1 else 500
+    for n in range(100, 5001, 100):
+        random_matrix = random_matrix[:n, :n]
+
+        # matrix_utils.print_matrix(random_matrix)
+
+        time_ssm, time_nor, time_linalg = measure_time_cholesky(random_matrix)
+        print("{:}, {:}, {:}, {:}".format(n, time_ssm, time_nor, time_linalg))
+
+
