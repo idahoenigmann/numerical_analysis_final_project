@@ -1,35 +1,23 @@
 import numpy as np
-import parse_matrix
-import time
+import timeit
 import sys
+import matrix_utils
+from SPDSkylineMatrix import SPDSkylineMatrix
+
 
 def measure_time_cholesky(matrix):
-    ssm = parse_matrix.SPDSkylineMatrix(matrix)
+    ssm = SPDSkylineMatrix(matrix)
+    conversion_factor = 1e9         # seconds to nanoseconds
 
-    t1 = time.perf_counter_ns()
-    ssm.cholesky()
-    t2 = time.perf_counter_ns()
-    parse_matrix.cholesky(matrix)
-    t3 = time.perf_counter_ns()
-    np.linalg.cholesky(matrix)
-    t4 = time.perf_counter_ns()
-
-    return t2 - t1, t3 - t2, t4 - t3
+    return round(timeit.timeit(ssm.cholesky, number=1) * conversion_factor),\
+           round(timeit.timeit(lambda: matrix_utils.cholesky(matrix), number=1) * conversion_factor),\
+           round(timeit.timeit(lambda: np.linalg.cholesky(matrix), number=1) * conversion_factor)
 
 
 if __name__ == "__main__":
-    np.set_printoptions(precision=1)
-    n = 10
-    if (len(sys.argv) > 1):
-      n = int(sys.argv[1])
+    n = int(sys.argv[1]) if len(sys.argv) > 1 else 100
 
-    matrix = parse_matrix.generate_rand_spd_skyline_matrix(n)
+    random_matrix = matrix_utils.generate_rand_spd_skyline_matrix(n, 2)
 
-    # parse_matrix.print_matrix(matrix)
-
-    # time_ssm, time_nor, time_linalg = measure_time_cholesky(matrix)
-    # print("{:}, {:}, {:}, {:}".format(n, time_ssm, time_nor, time_linalg))
-
-    ssm = parse_matrix.SPDSkylineMatrix(matrix)
-    l = ssm.cholesky()
-    print(np.max(matrix - np.matmul(l, l.T)))
+    time_ssm, time_nor, time_linalg = measure_time_cholesky(random_matrix)
+    print("{:}, {:}, {:}, {:}".format(n, time_ssm, time_nor, time_linalg))
