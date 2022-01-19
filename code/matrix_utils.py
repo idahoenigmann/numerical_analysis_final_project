@@ -52,6 +52,7 @@ def generate_rand_spd_skyline_matrix(dimension, branch_len=3, decimal_precision=
             len = min(branch_len[i], i + 1)
             branch = np.random.rand(len)
             matrix[i, i - len + 1: i + 1] = branch
+            matrix[i, i] += 1
 
         matrix = (matrix + matrix.T)
         eigvals, eigvecs = np.linalg.eigh(matrix)
