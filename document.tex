@@ -10,6 +10,7 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{subcaption}
 
 
 \renewcommand*{\proofname}{Beweis}
@@ -109,7 +110,37 @@ Sei $\{\delta_N\}_{N \in \mathbb{N}} \subseteq \mathbb{R}$ eine Nullfolge, d.h. 
 In sogenannter doppelt logarithmischer Darstellung (log-log Plots) wird für beide Koordinatenachsen eine logarithmische Skalierung verwendet, d.h. sowohl die waagrechte als auch die senkrechte Koordinatenachse wird logarithmisch unterteilt. Wie werden Potenzfunktionen der Form $y = c x^p$ in einem log-log Plot dargestellt? Wie können Sie die Ordnung $p$ und die Konstante $c > 0$ aus einem log-log Plot von $y = cx^p$ direkt auslesen?
 
 \begin{ausarbeitung}
-	Darstellung ist Gerade. $c = f(1)$ und $p$ ist Steigung, wenn beide Achsen ''gleich'' skaliert.
+	Die Darstellung hat die Form einer Geraden, da die neuen Achsen $X = \log(x)$ und $Y = \log(y)$ sind und gilt 
+	
+	\begin{align}
+		y &= c \cdot x^p\\
+		\iff \log(y) &= \log(c \cdot x^p) = \log(c) + p \log(x)\\
+		\label{eq:log_log}
+		\iff Y &= \log(c) + p \cdot X
+	\end{align}
+
+	was der Gleichung einer Geraden entspricht.
+
+	Um den Wert von $c$ abzulesen, kann man den Funktionswert bei $1$ ablesen, da $f(1) = c * 1^p = c$. Um $p$ abzulesen, kann man die Steigung der Geraden ansehen, wenn beide Achsen ''gleich'' skaliert, da $p$ die Steigung der Geraden in Gleichung \ref{eq:log_log} ist.
+	
+	\begin{figure}
+		\centering
+		\begin{subfigure}{0.49\textwidth}
+			\includegraphics[width=\textwidth]{loglog_plot_a}
+			\caption{Vergleich der beiden Graphen der Gleichung $y = 2x^3$. Im Loglog plot ist zu erkennen, dass die Steigung der Geraden $3$ bei gleichen Achsenskalierungen ist, also gilt $p = 3$.}
+			\label{fig:loglog_plot_a}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.49\textwidth}
+			\includegraphics[width=\textwidth]{loglog_plot_b}
+			\caption{Vergleich der beiden Graphen der Gleichung $y = 6x^{0.5}$. Im Loglog plot ist zu erkennen, dass bei die Funktion bei $x=1$ den Funktionswert $6$ annimmt, also gilt $c = 6$.}
+			\label{fig:loglog_plot_b}
+		\end{subfigure}
+		
+		\caption{Zwei unterschiedliche Funktionen der Form $y = cx^p$, jeweils in einem linear skalierten und einem Loglog Plot.}
+		\label{fig:loglog_plot}
+	\end{figure}
+	
 \end{ausarbeitung}
 \newpage
 
