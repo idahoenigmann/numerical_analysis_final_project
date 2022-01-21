@@ -1,8 +1,8 @@
-\documentclass[]{article}
+\documentclass[titlepage]{article}
 
 \usepackage{amsfonts} 
 \usepackage{amsmath}
-\usepackage[margin=3cm]{geometry}
+\usepackage[margin=2.5cm]{geometry}
 \usepackage{enumitem}
 \usepackage{amsthm}
 \usepackage{multirow}
@@ -11,7 +11,15 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{subcaption}
+\usepackage{tocloft}
+\usepackage[german]{babel}
 
+\renewcommand\thesection{Aufgabe~\arabic{section}:}
+\renewcommand\thesubsection{Teilaufgabe~\arabic{section}\alph{subsection}}
+% \renewcommand\theappendix{asdf}
+
+\renewcommand\cftsecnumwidth{7em}
+\renewcommand\cftsubsecnumwidth{8em}
 
 \renewcommand*{\proofname}{Beweis}
 \newenvironment{ausarbeitung}{\vspace{3mm}\noindent\textit{Ausarbeitung.}}{}
@@ -44,19 +52,22 @@
 
 
 %opening
-\title{Abschlussprojekt}
+\title{Abschlussprojekt Numerische Mathematik:\\
+	Cholesky-Zerlegung von Skyline-Matrizen}
 \author{Ida Hönigmann \and Fabian Dopf}
 
 \begin{document}
 
 \maketitle
 
+\tableofcontents
+\newpage
 
 
-\section*{Aufgabe 1: Aufwandsordnung numerischer Verfahren}
+\section{Aufwandsordnung numerischer Verfahren}
 Wir betrachten ein abstraktes numerisches Verfahren, das für $N \in \mathbb{N}$ Eingabedaten eine Laufzeit von $y_N \in \mathbb{R}_+$ hat. Man sagt, das Verfahren habe Aufwandsordnung $p > 0$, falls eine Konstante $C > 0$ existiert, sodass $y_N \leq C N^p$ für alle $N \in \mathbb{N}$.
 
-\subsection*{Teilaufgabe 1a:}
+\subsection{}
 Die Aufwandsordnung lässt sich über die Folge $\{p_N\}_{N \in \mathbb{N}}$ mit
 
 \begin{align}
@@ -85,7 +96,7 @@ quantifizieren. Beachten Sie, dass die Bestimmung von $p_N$ die Verfügbarkeit v
 \end{proof}
 
 
-\subsection*{Teilaufgabe 1b:}
+\subsection{}
 Sei $\{\delta_N\}_{N \in \mathbb{N}} \subseteq \mathbb{R}$ eine Nullfolge, d.h. es gilt $\delta_N \rightarrow 0$ für $N \rightarrow \infty$. Weiters verhalte sich die Laufzeit wie $y_N = (C+\delta_N)N^p$ mit $C > 0$. Zeigen Sie, dass die Folge $\{p_N\}_{N \in \mathbb{N}}$ gegen $p$ konvergiert, d.h. es gilt $p_N \rightarrow p$ für $N \rightarrow \infty$.
 
 \begin{proof}	
@@ -116,7 +127,7 @@ Sei $\{\delta_N\}_{N \in \mathbb{N}} \subseteq \mathbb{R}$ eine Nullfolge, d.h. 
 \end{proof}
 
 
-\subsection*{Teilaufgabe 1c:}
+\subsection{}
 In sogenannter doppelt logarithmischer Darstellung (log-log Plots) wird für beide Koordinatenachsen eine logarithmische Skalierung verwendet, d.h. sowohl die waagrechte als auch die senkrechte Koordinatenachse wird logarithmisch unterteilt. Wie werden Potenzfunktionen der Form $y = c x^p$ in einem log-log Plot dargestellt? Wie können Sie die Ordnung $p$ und die Konstante $c > 0$ aus einem log-log Plot von $y = cx^p$ direkt auslesen?
 
 \begin{ausarbeitung}
@@ -156,7 +167,7 @@ In sogenannter doppelt logarithmischer Darstellung (log-log Plots) wird für bei
 
 
 
-\section*{Aufgabe 2: Cholesky-Verfahren und Skyline-Matrizen}
+\section{Cholesky-Verfahren und Skyline-Matrizen}
 Eine Matrix $A \in \mathbb{R}^{n\times n}$ heißt Skyline-Matrix, falls es für $l = 1, ..., n$ Zahlen $p_l, q_l \in \mathbb{N}_0$ gibt, sodass für die $i$-te Zeile und $j$-te Spalte von $A$ gilt:
 
 \begin{itemize}
@@ -177,7 +188,7 @@ Folgendes Beispiel illustriert diese Aussage:
 \end{align*}
 
 
-\subsection*{Teilaufgabe 2a:}
+\subsection{}
 Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es wird nicht durch Null dividiert oder die Wurzel aus einer negativen Zahl gezogen), wenn die Matrix $A \in \mathbb{R}^{n\times n}$ symmetrisch und positiv definit ist.
 
 \begin{proof}
@@ -314,7 +325,7 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 \end{proof}
 
 
-\subsection*{Teilaufgabe 2b:}
+\subsection{}
 Beweisen Sie, dass die Besetzungsstruktur der Cholesky-Zerlegung der Skyline-Matrix $A$ erhalten bleibt, d.h. dass auch die untere Dreiecksmatrix $L$ eine geeignete Bandstruktur aufweist.
 
 \begin{proof}
@@ -379,11 +390,11 @@ Beweisen Sie, dass die Besetzungsstruktur der Cholesky-Zerlegung der Skyline-Mat
 
 
 
-\section*{Aufgabe 3: Pseudocode für Cholesky-Zerlegung von Skyline-Matrizen}
+\section{Pseudocode für Cholesky-Zerlegung von Skyline-Matrizen}
 Verwenden Sie den Cholesky-Algorithmus aus der Vorlesung. Entwerfen Sie jeweils einen Pseudocode, der für eine Skyline-Matrix:
 
 
-\subsection*{Teilaufgabe 3a:}
+\subsection{}
 möglichst effizient die Struktur erkennt.
 
 \begin{ausarbeitung}
@@ -430,7 +441,7 @@ möglichst effizient die Struktur erkennt.
 \end{ausarbeitung}
 
 
-\subsection*{Teilaufgabe 3b:}
+\subsection{}
 die Cholesky-Zerlegung berechnet.
 
 \begin{ausarbeitung}
@@ -484,10 +495,10 @@ die Cholesky-Zerlegung berechnet.
 
 
 
-\section*{Aufgabe 4: Aufwand des Algorithmus und Verhalten in Spezialfällen}
+\section{Aufwand des Algorithmus und Verhalten in Spezialfällen}
 
 
-\subsection*{Teilaufgabe 4a:}
+\subsection{}
 Sei $A \in \mathbb{R}^{n\times n}$ eine Skyline-Matrix. Welchen Aufwand haben Ihre Algorithmen aus Aufgabe 3 in Abhängigkeit von der Größe $n$ der Eingabedaten und Skyline-Indices $p_l = q_l$?
 
 \begin{ausarbeitung}
@@ -558,7 +569,7 @@ Sei $A \in \mathbb{R}^{n\times n}$ eine Skyline-Matrix. Welchen Aufwand haben Ih
 \end{ausarbeitung}
 
 
-\subsection*{Teilaufgabe 4b:}
+\subsection{}
 Betrachten Sie Matrizen mit den Besetzungsstrukturen
 
 \begin{align*}
@@ -649,7 +660,7 @@ Welche Besetzungsstruktur hat die Cholesky-Zerlegung für beide Matrizen? Was k�
 
 
 
-\section*{Aufgabe 5: Implementierung des Algorithmus und empirische Aufwandsschätzung}
+\section{Implementierung des Algorithmus und empirische Aufwandsschätzung}
 Implementieren Sie Ihren modifizierten Cholesky-Algorithmus in Python und weisen Sie empirisch nach, dass der Aufwand linear in $n$ wächst. Vergleichen Sie die Performance Ihrer Implementierung mit der Python-Funktion \texttt{scipy.linalg.cholesky}, wobei die Skyline-Matrix $A$ als vollbesetzte Matrix gespeichert ist.
 
 \begin{ausarbeitung}
@@ -680,7 +691,7 @@ Implementieren Sie Ihren modifizierten Cholesky-Algorithmus in Python und weisen
 
 
 \appendix
-
+\renewcommand\thesection{Appendix~\Alph{section}:}
 
 \section{Python Implementierung}
 
