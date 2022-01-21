@@ -75,10 +75,10 @@ quantifizieren. Beachten Sie, dass die Bestimmung von $p_N$ die Verfügbarkeit v
 
 	Durch Umformen ergibt sich
 
-	\begin{align}
+	\begin{align*}
 		\log(y_{2N}) - \log(y_N) = \log\left(\frac{y_{2N}}{y_N}\right) = \log\left(\frac{C(2N)^{p}}{C\cdot N^{p}}\right) = \log(2^{p}) = p \log(2) \\
 		\implies p = \frac{\log(y_{2N}) - \log(y_N)}{\log(2)}.
-	\end{align}
+	\end{align*}
 
 	Wenn sich $y_N$ asymptotisch wie $CN^p$ verhält konvergiert $p_N$ gegen $p$.
 
@@ -89,19 +89,27 @@ quantifizieren. Beachten Sie, dass die Bestimmung von $p_N$ die Verfügbarkeit v
 Sei $\{\delta_N\}_{N \in \mathbb{N}} \subseteq \mathbb{R}$ eine Nullfolge, d.h. es gilt $\delta_N \rightarrow 0$ für $N \rightarrow \infty$. Weiters verhalte sich die Laufzeit wie $y_N = (C+\delta_N)N^p$ mit $C > 0$. Zeigen Sie, dass die Folge $\{p_N\}_{N \in \mathbb{N}}$ gegen $p$ konvergiert, d.h. es gilt $p_N \rightarrow p$ für $N \rightarrow \infty$.
 
 \begin{proof}	
-	Zuerst berechnen wir einen Grenzwert, den wir in späterer Folge verwenden werden. Die Gleichungen stimmen, da $\lim$ stetig ist und da laut Voraussetzung $\delta_N$ und somit auch $\delta_{2N}$ als Teilfolge, gegen $0$ konvergieren.
+	Zuerst berechnen wir einen Grenzwert, den wir in späterer Folge verwenden werden.
 	
-	\begin{align}
+	\begin{align*}
 		\lim\limits_{n\rightarrow\infty} \log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right) = \log\left(\lim\limits_{n\rightarrow\infty}\frac{C+\delta_{2N}}{C+\delta_N}\right) = \log\left(\frac{\lim\limits_{n\rightarrow\infty}C+\delta_{2N}}{\lim\limits_{n\rightarrow\infty}C+\delta_N}\right) = \log\left(\frac{C}{C}\right) = \log(1) = 0
-	\end{align}
+	\end{align*}
 
-	Wir berechnen $\lim\limits_{n\rightarrow\infty}p_n$ indem wir die Gleichung \ref{eq:def_N} verwenden. Durch Einsetzen von $y_N = (C+\delta_N)N^p$ und den Rechenregeln von Limiten und dem Logarithmus erhalten wir folgendes:
+	Die Gleichungen stimmen, da $\lim$ stetig ist und da laut Voraussetzung $\delta_N$ und somit auch $\delta_{2N}$ als Teilfolge, gegen $0$ konvergieren.
 
-	\begin{align}
+	Wir berechnen $\lim\limits_{n\rightarrow\infty}p_n$ indem wir die Gleichung \ref{eq:def_N} verwenden. Durch Einsetzen der Voraussetzung 
+	
+	\begin{align*}
+		y_N = (C+\delta_N)N^p
+	\end{align*}
+	
+	und den Rechenregeln von Limiten und dem Logarithmus erhalten wir folgendes:
+
+	\begin{align*}
 		\implies
 		p_N = \frac{\log(y_{2N}) - \log(y_N)}{\log(2)} = \frac{\log((C+\delta_{2N})(2N)^p) - \log((C+\delta_N)N^p)}{\log(2)} = \frac{\log\left(\frac{(C+\delta_{2N})(2N)^p}{(C+\delta_N)N^p}\right)}{\log(2)} \\
 		= \frac{\log\left(\frac{(C+\delta_{2N})2^p}{(C+\delta_N)}\right)}{\log(2)} = \frac{p \log(2) + \log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right)}{\log(2)} = p + \frac{\log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right)}{\log(2)} \xrightarrow{n\rightarrow\infty} p + 0 = p
-	\end{align}
+	\end{align*}
 	
 	Zusammenfassend gilt nun $\lim\limits_{n\rightarrow\infty}p_n = p$, was zu zeigen war.
 
@@ -115,25 +123,25 @@ In sogenannter doppelt logarithmischer Darstellung (log-log Plots) wird für bei
 	Die Darstellung hat die Form einer Geraden, da die neuen Achsen $X = \log(x)$ und $Y = \log(y)$ sind und gilt 
 	
 	\begin{align}
-		y &= c \cdot x^p\\
-		\iff \log(y) &= \log(c \cdot x^p) = \log(c) + p \log(x)\\
+		y &= c \cdot x^p\notag\\
+		\iff \log(y) &= \log(c \cdot x^p) = \log(c) + p \log(x)\notag\\
 		\label{eq:log_log}
 		\iff Y &= \log(c) + p \cdot X
 	\end{align}
 
 	was der Gleichung einer Geraden entspricht.
 
-	Um den Wert von $c$ abzulesen, kann man den Funktionswert bei $1$ ablesen, da $f(1) = c * 1^p = c$. Um $p$ abzulesen, kann man die Steigung der Geraden ansehen, wenn beide Achsen ''gleich'' skaliert, da $p$ die Steigung der Geraden in Gleichung \ref{eq:log_log} ist.
+	Um den Wert von $c$ abzulesen, kann man den Funktionswert bei $1$ ablesen, da $f(1) = c \cdot 1^p = c$. Um $p$ abzulesen, kann man die Steigung der Geraden ansehen, wenn beide Achsen ''gleich'' skaliert, da $p$ die Steigung der Geraden in Gleichung \ref{eq:log_log} ist.
 	
 	\begin{figure}
 		\centering
-		\begin{subfigure}{0.49\textwidth}
+		\begin{subfigure}{0.48\textwidth}
 			\includegraphics[width=\textwidth]{loglog_plot_a}
 			\caption{Vergleich der beiden Graphen der Gleichung $y = 2x^3$. Im Loglog plot ist zu erkennen, dass die Steigung der Geraden $3$ bei gleichen Achsenskalierungen ist, also gilt $p = 3$.}
 			\label{fig:loglog_plot_a}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}{0.49\textwidth}
+		\begin{subfigure}{0.48\textwidth}
 			\includegraphics[width=\textwidth]{loglog_plot_b}
 			\caption{Vergleich der beiden Graphen der Gleichung $y = 6x^{0.5}$. Im Loglog plot ist zu erkennen, dass bei die Funktion bei $x=1$ den Funktionswert $6$ annimmt, also gilt $c = 6$.}
 			\label{fig:loglog_plot_b}
@@ -175,11 +183,17 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 \begin{proof}
 	Wir wiederholen zuerst die relevanten Definitionen.
 	
-	Eine Matrix $A \in \mathbb{R}^{n\times n}$ heißt symmetrisch, falls $A = A^T$.
+	\begin{itemize}
+		\item Eine Matrix $A \in \mathbb{R}^{n\times n}$ heißt symmetrisch, falls $A = A^T$.
+		\item Eine Matrix $A \in \mathbb{R}^{n\times n}$ heißt positiv definit, falls $\forall u \in \mathbb{R}^n\setminus\{0\}: u^T A u > 0$.
+	\end{itemize}
+
+	Wir zeigen
+	\begin{align*}
+		\forall A \in \mathbb{K}^{n\times n} \text{ symmetrisch und positiv definit } \exists L \in \mathbb{R}^{n\times n} \text{ untere Dreiecksmatrix } : LL^T=A
+	\end{align*}
 	
-	Eine Matrix $A \in \mathbb{R}^{n\times n}$ heißt positiv definit, falls $\forall u \in \mathbb{R}^n\setminus\{0\}: u^T A u > 0$.
-	
-	Wir zeigen $\forall A \in \mathbb{K}^{n\times n}$ symmetrisch und positiv definit $\exists L \in \mathbb{R}^{n\times n}$ untere Dreiecksmatrix $: LL^T=A$ durch vollständige Induktion nach $n$.
+	 durch vollständige Induktion nach $n$:
 	
 	\begin{itemize}
 		\item \textbf{Induktionsanfang:} $n=1$
@@ -214,11 +228,15 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 			\end{pmatrix} = A
 		\end{align*}
 	
-		\item \textbf{Induktionsvoraussetzung:} $\forall A \in \mathbb{R}^{n \times n}$ symmetrisch und positiv definit $\exists L \in \mathbb{R}^{n\times n}$ untere Dreiecksmatrix $:LL^T=A$.
+		\item \textbf{Induktionsvoraussetzung:} $\forall A \in \mathbb{R}^{n - 1 \times n - 1}$ symmetrisch und positiv definit $\exists L \in \mathbb{R}^{n - 1\times n - 1}$ untere Dreiecksmatrix $:LL^T=A$.
 		
 		\item \textbf{Induktionsschritt:} $n-1 \implies n$
 		
-		Sei $A \in \mathbb{R}^{n\times n}$ eine symmetrische und positiv definite Matrix. Wir definieren eine Matrix $B \in \mathbb{R}^{(n-1)\times(n-1)}$ durch $B_{i,j} := A_{i,j}$, einen Vektor $a \in \mathbb{R}^{n-1}$ durch $a_i := A_{i,n}$ und eine Zahl $\alpha \in \mathbb{R}$ durch $\alpha := A_{n,n}$.
+		Sei $A \in \mathbb{R}^{n\times n}$ eine symmetrische und positiv definite Matrix. Wir definieren eine Matrix $B \in \mathbb{R}^{(n-1)\times(n-1)}$, einen Vektor $a \in \mathbb{R}^{n-1}$ und eine Zahl $\alpha \in \mathbb{R}$ durch
+		
+		\begin{align*}
+			\forall i, j \in \{1, ..., n - 1\}: B_{i,j} := A_{i,j} && \forall i \in \{1, ..., n - 1\}: a_i := A_{i,n} && \alpha := A_{n,n}.
+		\end{align*}
 		
 		Zusammengefasst gilt nun
 		
@@ -229,7 +247,7 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 			\end{pmatrix} && \text{ wobei sich das }a^T\text{ aus der Symmetrie von }A\text{ ergibt.}
 		\end{align*}
 	
-		Für $B$ gilt, dass es sich um eine symmetrische und positiv definite Matrix aus $\mathbb{R}^{(n-1)\times(n-1)}$ handelt. Laut Induktionsvoraussetzung existiert dazu eine untere Dreiecksmatrix $P \in \mathbb{R}^{(n-1)\times(n-1)}$ mit $PP^T=B$.
+		$B$ ist eine symmetrische, positiv definite Matrix aus $\mathbb{R}^{(n-1)\times(n-1)}$, daher existiert laut Induktionsvoraussetzung eine untere Dreiecksmatrix $P \in \mathbb{R}^{(n-1)\times(n-1)}$ mit $PP^T=B$.
 		
 		Da $B$ positiv definit ist und somit regulär ist, folgt die eindeutige Existenz eines Vektors $l \in \mathbb{R}^{n-1}$ der die Gleichung $Pl=a$ erfüllt.
 		
@@ -420,31 +438,65 @@ Sei $A \in \mathbb{R}^{n\times n}$ eine Skyline-Matrix. Welchen Aufwand haben Ih
 \begin{ausarbeitung}
 	
 	\begin{itemize}
-		\item \texttt{to\_skyline} hat wegen den Schleifen in Zeile 4, 7 und 12 Aufwand $\sum_{l=1}^{n} (n-p_l)+(n-q_l) = 2n^2-\sum_{l=1}^{n}p_l+q_l$.
+		\item \texttt{to\_skyline} hat wegen den Schleifen in Zeile 4, 9 und 16 Aufwand
+		\begin{align*}
+			\sum_{l=1}^{n} (n-p_l)+(n-q_l) = 2n^2-\sum_{l=1}^{n}p_l+q_l.
+		\end{align*}
+		
 		\begin{itemize}
-			\item best case: Im besten Fall sind $p_l = l$ und $q_l = l$ also maximal, was zu einem Aufwand von $2n^2-\sum_{l=1}^{n}2l = 2n^2 - 2\frac{n(n+1)}{2} = 2n^2-(n^2+n) = n^2 - n$ führt
-			\item worst case: Im schlechtesten Fall sind $p_l=0$ und $q_l = 0$ also minimal, was in zu einem Aufwand von $2n^2 - \sum_{l=1}^{n}0 = 2n^2$ führt
+			\item best case: Im besten Fall ist $p_l = q_l = l$ also maximal, mit Aufwand
+			\begin{align*}
+				2n^2-\sum_{l=1}^{n}2l = 2n^2 - 2\frac{n(n+1)}{2} = 2n^2-(n^2+n) = n^2 - n
+			\end{align*}
+			
+			\item worst case: Im schlechtesten Fall ist $p_l = q_l = 0$ also minimal, mit Aufwand
+			\begin{align*}
+				2n^2 - \sum_{l=1}^{n}0 = 2n^2
+			\end{align*}
 		\end{itemize}
 		
-		\item \texttt{to\_spd\_skyline} hat wegen den Schleifen in Zeile 4 und 7 Aufwand $\sum_{l=1}^{n}(n-p_l) = n^2 - \sum_{l=1}^{n}p_l$
+		\item \texttt{to\_spd\_skyline} hat wegen den Schleifen in Zeile 4 und 9 Aufwand 
+		\begin{align*}
+			\sum_{l=1}^{n}(n-p_l) = n^2 - \sum_{l=1}^{n}p_l
+		\end{align*}
 		\begin{itemize}
-			\item best case: Im besten Fall ist $p_l = l$ also maximal, was zu einem Aufwand von $n^2 - \sum_{l=1}^{n}l = n^2 - \frac{n(n+1)}{2} = n^2 - \frac{1}{2}n^2 - \frac{1}{2}n = \frac{1}{2}(n^2-n)$ führt
-			\item worst case: Im schlechtesten Fall ist $p_l=1$ also minimal, was in zu einem Aufwand von $n^2 - \sum_{l=1}^{n}1 = n^2 - n$ führt
+			\item best case: Im besten Fall ist $p_l = l$ also maximal, mit Aufwand 
+			\begin{align*}
+				n^2 - \sum_{l=1}^{n}l = n^2 - \frac{n(n+1)}{2} = n^2 - \frac{1}{2}n^2 - \frac{1}{2}n = \frac{1}{2}(n^2-n)
+			\end{align*}
+			\item worst case: Im schlechtesten Fall ist $p_l=1$ also minimal, mit Aufwand 
+			\begin{align*}
+				n^2 - \sum_{l=1}^{n}1 = n^2 - n
+			\end{align*}
 		\end{itemize}
 	
-		\item \texttt{cholesky} hat wegen den Schleifen in Zeile 5, 7, 12 und 14 Aufwand $\sum_{k=1}^{n}(k + \sum_{i=k+1}^{n}k) = \sum_{k=1}^{n}(k+k(n-k)) = \sum_{k=1}^{n}k + \sum_{k=1}^{n}kn - \sum_{k=1}^{n}k^2 = \frac{n(n+1)}{2} + \frac{n^2(n+1)}{2} - \frac{n(n+1)(2n+1)}{6} = \frac{1}{6}n^3 + \frac{1}{2}n^2 + \frac{1}{3}n$ also $\mathcal{O}(n^3)$
+		\item \texttt{cholesky} hat wegen den Schleifen in Zeile 5, 7, 12 und 14 Aufwand
+		\begin{align*}
+			\sum_{k=1}^{n}(k + \sum_{i=k+1}^{n}k) &= \sum_{k=1}^{n}(k+k(n-k)) = \sum_{k=1}^{n}k + \sum_{k=1}^{n}kn - \sum_{k=1}^{n}k^2 \\
+			&= \frac{n(n+1)}{2} + \frac{n^2(n+1)}{2} - \frac{n(n+1)(2n+1)}{6} = \frac{1}{6}n^3 + \frac{1}{2}n^2 + \frac{1}{3}n
+		\end{align*}
 		
-		\item \texttt{cholesky\_skyline} Zeilen 9 und 14 haben Aufwand $\mathcal{O}(p_k)$, da die beiden Vektoren Länge $k - start\_idx + 1 = k - (k - p_k + 1) + 1 = p_k$ haben und sind somit, neben Zeile 5 mit Aufwand von $\mathcal{O}(n)$, die aufwändigsten Zeilen in der Funktion.
+		also $\mathcal{O}(n^3)$.
 		
-		Durch das if-Statement in Zeile 13 wird sichergestellt, dass der Aufwand nur anfällt, falls nach Aufgabe 2b das Ergebnis nicht trivial ist.
+		\item \texttt{cholesky\_skyline} Zeilen 12 und 18 haben Aufwand $\mathcal{O}(p_k)$, da die beiden Vektoren Länge
+		\begin{align*}
+			k - start\_idx + 1 = k - (k - p_k + 1) + 1 = p_k
+		\end{align*}
+		haben und sind somit, neben Zeile 6 mit Aufwand von $\mathcal{O}(n)$, die aufwändigsten Zeilen in der Funktion.
 		
-		Die Einschränkung in Zeile 12 auf den Bereich \texttt{range(k+1, k+max\_width)} statt \texttt{range(k+1, n)} ermöglicht es viele der if-Statements zu ersparen, die es dem Python-Interpreter erschweren die Ausführung zu optimieren\footnote{If-Statements ermöglichen es nicht die Instruction Pipeline vollständig auszunützen und verlangsamen dadurch die Ausführung. In modernen Systemen wird daher sogenannte Branch Prediction durchgeführt die versucht vorherzusagen ob die Bedingung wahr ist.}.
+		Durch das if-Statement in Zeile 16 wird sichergestellt, dass der Aufwand nur anfällt, falls nach Aufgabe 2b das Ergebnis nicht trivial ist.
 		
-		Insgesamt ist der Aufwand also $n + \sum_{k=1}^{n} \sum_{l=1}^{p_k}p_k = n + \sum_{k=1}^{n} p_k^2$ was  
+		Die Einschränkung in Zeile 15 auf den Bereich \texttt{range(k+1, k+max\_width)} statt \texttt{range(k+1, n)} ermöglicht es viele der if-Statements zu ersparen, die es dem Python-Interpreter erschweren die Ausführung zu optimieren\footnote{If-Statements ermöglichen es nicht die Instruction Pipeline vollständig auszunützen und verlangsamen dadurch die Ausführung. In modernen Systemen wird daher sogenannte Branch Prediction durchgeführt die versucht vorherzusagen ob die Bedingung wahr ist.}.
+		
+		Insgesamt ist der Aufwand also
+		\begin{align*}
+			n + \sum_{k=1}^{n} \sum_{l=1}^{p_k}p_k = n + \sum_{k=1}^{n} p_k^2
+		\end{align*}
+		was
 		\begin{itemize}
-			\item im besten Fall $n + \sum_{k=1}^{n} 1 = 2n$,
-			\item im Fall, dass $p_l \approx \sqrt{n}$ ungefähr $n + \sum_{k=1}^{n}(\sqrt{n})^2 = n + n^2$ und
-			\item im schlechtesten Fall $n + \sum_{k=1}^{n}k^2 = n + \frac{n(n+1)(2n+1)}{6} = \frac{1}{3}n^3 + \frac{1}{2}n^2 + \frac{7}{6}n$ ist.
+			\item im besten Fall $n + \sum_{k=1}^{n} 1 = 2n = \mathcal{O}(n)$,
+			\item im Fall, dass $p_l \approx \sqrt{n}$ ungefähr $n + \sum_{k=1}^{n}(\sqrt{n})^2 = n + n^2 = \mathcal{O}(n^2)$ und
+			\item im schlechtesten Fall $n + \sum_{k=1}^{n}k^2 = n + \frac{n(n+1)(2n+1)}{6} = \frac{1}{3}n^3 + \frac{1}{2}n^2 + \frac{7}{6}n = \mathcal{O}(n^3)$ ist.
 		\end{itemize}
 	\end{itemize}
 	
@@ -475,13 +527,26 @@ Betrachten Sie Matrizen mit den Besetzungsstrukturen
 Welche Besetzungsstruktur hat die Cholesky-Zerlegung für beide Matrizen? Was könnte man machen, um für Matrizen mit der ''linken'' Besetzungsstruktur die Cholesky-Zerlegung effizienter zu berechnen?
 
 \begin{ausarbeitung}
-	Die linke Matrix ist vollbesetzt als Skyline-Matrix, in dem Sinne, dass $\forall k \in \{1, ..., n\}: p_k = q_k = k$ also immer den maximal möglichen Wert annimmt.
-	
-	Die rechte Matrix hat die Skyline-Indizes $\forall k \in \{1, ..., n - 1\}: p_k = q_k = 1$ und $p_n = q_n = n$ und ist daher nach Aufgabe 4a effizienter in der Berechnung der Cholesky-Zerlegung.
+	\begin{itemize}
+		\item Die linke Matrix ist vollbesetzt als Skyline-Matrix, in dem Sinne, dass 
+		\begin{align*}
+			\forall k \in \{1, ..., n\}: p_k = q_k = k
+		\end{align*}
+		also immer den maximal möglichen Wert annimmt.
+		
+		\item Die rechte Matrix hat die Skyline-Indizes 
+		\begin{align*}
+			\forall k \in \{1, ..., n - 1\}: p_k = q_k = 1 && \text{ und } && p_n = q_n = n
+		\end{align*}
+		und ist daher nach Aufgabe 4a effizienter in der Berechnung der Cholesky-Zerlegung.
+	\end{itemize}
 	
 	Eine effiziente Berechnung der Cholesky-Zerlegung der linken Matrix erhält man mit folgender Überlegung:
 	
-	Definieren wir eine Abbildung $\sigma: \mathbb{R}^{n\times n} \rightarrow \mathbb{R}^{n \times n}$ die einer Matrix $A$ die ''gespiegelte'' Matrix $\sigma(A)$ zuordnet wobei $(\sigma(A))_{i,j} := A_{n+1-j, n+1-i}$.
+	Definieren wir eine Abbildung die einer Matrix die ''gespiegelte'' Matrix zuordnet:
+	\begin{align*}
+		\sigma: \mathbb{R}^{n\times n} \rightarrow \mathbb{R}^{n \times n} && (\sigma(A))_{i,j} := A_{n+1-j, n+1-i}
+	\end{align*}
 	
 	$\sigma$ hat folgende Eigenschaften: Für beliebige $A,B \in \mathbb{R}^{n \times n}$ gilt
 	
@@ -504,16 +569,26 @@ Welche Besetzungsstruktur hat die Cholesky-Zerlegung für beide Matrizen? Was k�
 			da $k \mapsto n+1-k$ eine Permutation von $\{1, .., n\}$ ist.
 		\item Dreiecksmatrix bleibt erhalten
 		
-		Wenn $A$ eine untere Dreiecksmatrix ist, also $A_{i,j} = 0$ für $i < j$, so folgt, dass $\sigma(A)$ auch eine untere Dreiecksmatrix ist, da $i < j \iff n+1-j < n+1-i$.
+		Wenn $A$ eine untere Dreiecksmatrix ist, also $A_{i,j} = 0$ für $i < j$, so folgt, dass $\sigma(A)$ auch eine untere Dreiecksmatrix ist, da 
+		\begin{align*}
+			i < j \iff n+1-j < n+1-i.
+		\end{align*}
 		
 		\item Symmetrie bleibt erhalten
 		
-		Wenn $A$ symmetrisch ist, so ist auch $\sigma(A)$ symmetrisch, da $\sigma(A)_{i,j} = A_{n+1-j,n+1-i} = A_{n+1-i,n+1-j} = \sigma(A)_{j,i}$.	
+		Wenn $A$ symmetrisch ist, so ist auch $\sigma(A)$ symmetrisch, da 
+		\begin{align*}
+			\sigma(A)_{i,j} = A_{n+1-j,n+1-i} = A_{n+1-i,n+1-j} = \sigma(A)_{j,i}.
+		\end{align*}
 	\end{itemize}
 
 	Sei $A$ eine Matrix von der linken, ungünstigen Art. Dann ist $\sigma(A)$ von der rechten Art, und ist es ist daher möglich die Cholesky-Zerlegung von $\sigma(A)$ effizient zu berechnen. Sei $L$ eben diese Zerlegung von $\sigma(A)$, d.h. $LL^T=\sigma(A)$.
 	
-	Nach dem oben gezeigten gilt nun $\sigma(L)^T\sigma(L) = \sigma(L^T)\sigma(L) = \sigma(LL^T) = \sigma(\sigma(A)) = A$. Womit wir eine Cholesky-Zerlegung von $A$ erhalten.
+	Nach dem oben gezeigten gilt nun
+	\begin{align*}
+		\sigma(L)^T\sigma(L) = \sigma(L^T)\sigma(L) = \sigma(LL^T) = \sigma(\sigma(A)) = A,
+	\end{align*}
+	womit wir eine Cholesky-Zerlegung von $A$ erhalten.
 \end{ausarbeitung}
 \newpage
 
