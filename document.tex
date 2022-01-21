@@ -318,7 +318,62 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 Beweisen Sie, dass die Besetzungsstruktur der Cholesky-Zerlegung der Skyline-Matrix $A$ erhalten bleibt, d.h. dass auch die untere Dreiecksmatrix $L$ eine geeignete Bandstruktur aufweist.
 
 \begin{proof}
-	TODO Beweis 2b
+	Aus der Vorlesung ist bekannt, dass der folgende Algorithmus die Choleksy-Zerlegung einer symmetrischen, positiv definiten Matrix berechnet.
+	\begin{enumerate}[label={(\arabic*)}]
+		\item \texttt{for k = 1:n}
+		\item \hspace{5mm} $L_{kk} = \sqrt{A_{kk} - \sum_{j=1}^{k-1}(L_{kj})^2}$
+		\item \hspace{5mm} \texttt{for i = k+1:n}
+		\item \hspace{10mm} $L_{ik} = (A_{ik} - \sum_{j=1}^{k-1}L_{ij}L_{kj})/(L_{kk})$
+		\item \hspace{5mm} \texttt{end loop}
+		\item \texttt{end loop}
+	\end{enumerate}
+
+	Weiters ist bekannt, dass im Algorithmus auf Werte $L_{ik}$ nur zugegriffen wird, falls diese bereits berechnet wurden.
+	
+	Sei $A \in \mathbb{R}^{n\times n}$ eine beliebige symmetrische, positiv definite Skyline Matrix mit $p_l = q_l \in \{1, ..., l\}$, das heißt es gilt
+	\begin{align*}
+		\forall i, k \in \{1, ..., n\}: k < i - p_i \implies A_{ik} = 0.
+	\end{align*}
+	
+	Sei $L \in \mathbb{R}^{n\times n}$ die untere Dreiecksmatrix aus der Cholesky-Zerlegung. Sei $i \in \{1, ..., n\}$ beliebig.
+	
+	Wir zeigen
+	\begin{align*}
+		\forall k \in \{1, ..., i - p_i - 1\}: L_{ik} = 0
+	\end{align*}
+	durch vollständige Induktion nach $k$:
+	
+	Falls $\{1, ..., i - p_i - 1\} = \emptyset$ ist nichts zu zeigen.
+	
+	\begin{enumerate}
+		\item \textbf{Induktionsanfang:} $k=1$
+		
+		Für $k=1$ gilt
+		\begin{align*}
+			1 \leq i - p_i - 1 \iff 1 < i - p_i \implies A_{i1} = 0.
+		\end{align*}
+		
+		$L_{i1}$ wird in Zeile 4 des Algorithmus wie folgt berechnet und danach nicht mehr geändert:
+		\begin{align*}
+			L_{i1} = \frac{A_{i1} - \sum_{j=1}^{0}L_{ij}L_{1j}}{L_{11}} = \frac{0}{L_{11}} = 0
+		\end{align*}
+	
+		\item \textbf{Induktionsvoraussetzung:} $\forall j \in \{1, ..., k - 1\}: L_{ij} = 0$
+		
+		\item \textbf{Induktionsschritt:} $k-1 \implies k$
+		
+		Für $k$ gilt
+		\begin{align*}
+			k \leq i - p_i - 1 \iff k < i - p_i \implies A_{ik} = 0.
+		\end{align*}
+		
+		$L_{ik}$ wird in Zeile 4 des Algorithmus wie folgt berechnet und danach nicht mehr geändert:
+		\begin{align*}
+			L_{ik} = \frac{A_{ik} - \sum_{j=1}^{k-1}L_{ij}L_{kj}}{L_{kk}} = \frac{0 - \sum_{j=1}^{k - 1}0\cdot L_{kj}}{L_{kk}} = 0
+		\end{align*}
+	\end{enumerate}
+	
+	Dadurch ist gezeigt, dass die Skyline-Form in der unteren Dreieckshälfte der Cholesky-Zerlegung erhalten bleibt.
 \end{proof}
 \newpage
 
