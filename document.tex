@@ -67,18 +67,20 @@ Die Aufwandsordnung lässt sich über die Folge $\{p_N\}_{N \in \mathbb{N}}$ mit
 quantifizieren. Beachten Sie, dass die Bestimmung von $p_N$ die Verfügbarkeit von zwei aufeinanderfolgenden Folgengliedern $y_N$ und $y_{2N}$ erfordert. Verwenden Sie den Ansatz $y_N = CN^p$ und leiten Sie die Formel in \ref{eq:def_N} her!
 
 \begin{proof}
-	Annahme: $\forall N \in \mathbb{N}$ ist $p_N$, sodass $y_N \leq C N^{p_N}$ für ein $C > 0$.
+	Sei $(y_N)_{N \in \mathbb{N}}$ die Laufzeit eines numerischen Verfahrens mit
 	
-	Für ein beliebiges $N \in \mathbb{N}$ gilt $\exists C_{1N}, C_{2N} > 0$ und $p_{1N}, p_{2N} > 0$ mit $y_N \leq C_{1N} N^{p_{1N}}$ und $y_{2N} \leq C_{2N} (2N)^{p_{2N}}$.
-	
-	Für $C:=max\{C_{1N}, C_{2N}\}$ und $p_N:=max\{p_{1N}, p_{2N}\}$ gilt $y_N \leq C_{1N} N^{p_{1N}} \leq C N^{p_N}$ und $y_{2N} \leq C_{2N} (2N)^{p_{2N}} \leq C (2N)^{p_N}$.
-	 
+	\begin{align*}
+		\exists C > 0 \exists p > 0 \forall N \in \mathbb{N}: y_N = CN^p.
+	\end{align*}
+
+	Durch Umformen ergibt sich
+
 	\begin{align}
-		\log(y_{2N}) - \log(y_N) = \log\left(\frac{y_{2N}}{y_N}\right) = \log\left(\frac{C(2N)^{p_N}}{C\cdot N^{p_N}}\right) = \log(2^{p_N}) = p_N \log(2) \\
-		\implies p_N = \frac{\log(y_{2N}) - \log(y_N)}{\log(2)}
+		\log(y_{2N}) - \log(y_N) = \log\left(\frac{y_{2N}}{y_N}\right) = \log\left(\frac{C(2N)^{p}}{C\cdot N^{p}}\right) = \log(2^{p}) = p \log(2) \\
+		\implies p = \frac{\log(y_{2N}) - \log(y_N)}{\log(2)}.
 	\end{align}
 
-	TODO ob das so alles passt...
+	Wenn sich $y_N$ asymptotisch wie $CN^p$ verhält konvergiert $p_N$ gegen $p$.
 
 \end{proof}
 
