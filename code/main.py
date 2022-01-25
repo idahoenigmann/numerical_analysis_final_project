@@ -19,23 +19,17 @@ def measure_time_cholesky(matrix):
 if __name__ == "__main__":
     step = 10
     b = 191
-    n = int(sys.argv[1]) * step if len(sys.argv) > 1 else 2000
+    n = int(sys.argv[1]) * step if len(sys.argv) > 1 else 10
 
-    if False:
-        # generate matrix
+    random_matrix = matrix_utils.generate_rand_spd_skyline_matrix(n, 3)
 
-        random_matrix = matrix_utils.generate_rand_spd_skyline_matrix(n, b, 3)
-        ssm = SPDSkylineMatrix(random_matrix)
-        avg_b = round(np.max(list(len(lst) for lst in ssm.values)))
-        print(avg_b)
-        np.savetxt("matrix/matrix_" + str(avg_b) + ".csv", random_matrix, delimiter=",")
-    else:
-        random_matrix = np.loadtxt("matrix/matrix_" + str(b) + ".csv", delimiter=",")
+    matrix = SPDSkylineMatrix(random_matrix)
 
-        # for n in range(step, n + step, step):
-        random_matrix = random_matrix[:n, :n]
+    matrix_utils.print_matrix(random_matrix)
 
-        # matrix_utils.print_matrix(random_matrix)
+    l = matrix.cholesky()
 
-        time_linalg = measure_time_cholesky(random_matrix)
-        print("{:}, {:}".format(n, time_linalg))
+    matrix_utils.print_matrix(l)
+
+    print(np.max(random_matrix - np.matmul(l, l.T)))
+
