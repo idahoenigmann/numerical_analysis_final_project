@@ -188,30 +188,22 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 		\item Eine Matrix $A \in \mathbb{R}^{n\times n}$ heißt positiv definit, falls $\forall u \in \mathbb{R}^n\setminus\{0\}: u^T A u > 0$.
 	\end{itemize}
 
-	Wir zeigen
-	\begin{align*}
-		\forall A \in \mathbb{K}^{n\times n} \text{ symmetrisch und positiv definit } \exists L \in \mathbb{R}^{n\times n} \text{ untere Dreiecksmatrix } : LL^T=A
-	\end{align*}
-	
-	 durch vollständige Induktion nach $n$:
+	Wir zeigen, dass für jede SPD Matrix $A \in \mathbb{R}^{n\times n}$ eine untere Dreiecksmatrix $L \in \mathbb{R}^{n\times n}$ existiert, sodass $LL^T=A$, durch vollständige Induktion nach $n$:
 	
 	\begin{itemize}
 		\item \textbf{Induktionsanfang:} $n=1$
 		
 		Wenn $A := \begin{pmatrix}
 			a_{11}
-		\end{pmatrix} \in \mathbb{R}^{1\times 1}$ eine beliebige symmetrische und positiv definite Matrix ist, folgt aus positiv definit, dass für
-	
+		\end{pmatrix} \in \mathbb{R}^{1\times 1}$ eine beliebige SPD Matrix ist, so folgt für $u := \begin{pmatrix} 1 \end{pmatrix} \in \mathbb{R}^1 \setminus\{0\}$
 		\begin{align*}
-			u := \begin{pmatrix}
-				1
-			\end{pmatrix} \in \mathbb{R}^1 \setminus\{0\} && 0 < u^TAu = \begin{pmatrix}
+			0 < u^TAu = \begin{pmatrix}
 				1
 			\end{pmatrix} \begin{pmatrix}
 				a_{11}
 			\end{pmatrix} \begin{pmatrix}
 				1
-			\end{pmatrix} = a_{11}
+			\end{pmatrix} = a_{11}.
 		\end{align*}
 	
 		Da also $a_{11} > 0$ gilt, ist $L := \begin{pmatrix}
@@ -225,26 +217,26 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 				\sqrt{a_{11}}
 			\end{pmatrix} = \begin{pmatrix}
 				a_{11}
-			\end{pmatrix} = A
+			\end{pmatrix} = A.
 		\end{align*}
 	
-		\item \textbf{Induktionsvoraussetzung:} $\forall A \in \mathbb{R}^{n - 1 \times n - 1}$ symmetrisch und positiv definit $\exists L \in \mathbb{R}^{n - 1\times n - 1}$ untere Dreiecksmatrix $:LL^T=A$.
+		\item \textbf{Induktionsvoraussetzung:} $\forall A \in \mathbb{R}^{n - 1 \times n - 1}$ SPD $\exists L \in \mathbb{R}^{n - 1\times n - 1}$ untere Dreiecksmatrix $:LL^T=A$.
 		
 		\item \textbf{Induktionsschritt:} $n-1 \implies n$
 		
 		Sei $A \in \mathbb{R}^{n\times n}$ eine symmetrische und positiv definite Matrix. Wir definieren eine Matrix $B \in \mathbb{R}^{(n-1)\times(n-1)}$, einen Vektor $a \in \mathbb{R}^{n-1}$ und eine Zahl $\alpha \in \mathbb{R}$ durch
 		
 		\begin{align*}
-			\forall i, j \in \{1, ..., n - 1\}: B_{i,j} := A_{i,j} && \forall i \in \{1, ..., n - 1\}: a_i := A_{i,n} && \alpha := A_{n,n}.
+			\forall i, j \in \{1, ..., n - 1\}: B_{i,j} := A_{i,j}, && \forall i \in \{1, ..., n - 1\}: a_i := A_{i,n}, && \alpha := A_{n,n}.
 		\end{align*}
 		
-		Zusammengefasst gilt nun
+		Zusammengefasst gilt nun wegen der Symmetrie von $A$
 		
 		\begin{align*}
 			A = \begin{pmatrix}
 				B & a \\
 				a^T & \alpha
-			\end{pmatrix} && \text{ wobei sich das }a^T\text{ aus der Symmetrie von }A\text{ ergibt.}
+			\end{pmatrix}
 		\end{align*}
 	
 		$B$ ist eine symmetrische, positiv definite Matrix aus $\mathbb{R}^{(n-1)\times(n-1)}$, daher existiert laut Induktionsvoraussetzung eine untere Dreiecksmatrix $P \in \mathbb{R}^{(n-1)\times(n-1)}$ mit $PP^T=B$.
@@ -257,7 +249,7 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 		
 		\begin{align*}
 			\alpha - l^Tl &= \alpha - (P^{-1}a)^T(P^{-1}a) = \alpha - a^T (P^{-1})^TP^{-1}a \\
-			&= \alpha - a^T (PP^T)^{-1}a = \alpha - a^T B^{-1}a
+			&= \alpha - a^T (PP^T)^{-1}a = \alpha - a^T B^{-1}a.
 		\end{align*}
 	
 		Da $A$ positiv definit ist ergibt sich
@@ -275,7 +267,7 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 				-B^{-1}a\\
 				1
 			\end{pmatrix} =
-			\alpha - a^T B^{-1} a
+			\alpha - a^T B^{-1} a.
 		\end{align*}
 	
 		Also ist $\beta := \sqrt{\alpha - l^Tl}$ wohldefiniert. Umgeformt gilt nun $l^Tl + \beta^2 = \alpha$.
@@ -286,7 +278,7 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 			L = \begin{pmatrix}
 				P & 0 \\
 				l^T & \beta
-			\end{pmatrix}
+			\end{pmatrix},
 		\end{align*}
 	
 		Dann gilt
@@ -307,8 +299,10 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 			\end{pmatrix} = \begin{pmatrix}
 				B & a \\
 				a^T & \alpha
-			\end{pmatrix} = A
+			\end{pmatrix} = A,
 		\end{align*}
+	
+		was zu zeigen war.
 	\end{itemize}
 	
 \end{proof}
@@ -330,17 +324,17 @@ Beweisen Sie, dass die Besetzungsstruktur der Cholesky-Zerlegung der Skyline-Mat
 
 	Weiters ist bekannt, dass im Algorithmus auf Werte $L_{ik}$ nur zugegriffen wird, falls diese bereits berechnet wurden.
 	
-	Sei $A \in \mathbb{R}^{n\times n}$ eine beliebige symmetrische, positiv definite Skyline Matrix mit $p_l = q_l \in \{1, ..., l\}$, das heißt es gilt
+	Sei $A \in \mathbb{R}^{n\times n}$ eine beliebige symmetrische, positiv definite Skyline Matrix mit $p_l = q_l \in \{1, ..., l\}$, d.h.
 	\begin{align*}
-		\forall i, k \in \{1, ..., n\}: k < i - p_i \implies A_{ik} = 0.
+		A_{ik} = 0 \text{ für } i,k \in \{1, ..., n\} \text{ mit } k < i - p_i.
 	\end{align*}
 	
 	Sei $L \in \mathbb{R}^{n\times n}$ die untere Dreiecksmatrix aus der Cholesky-Zerlegung. Sei $i \in \{1, ..., n\}$ beliebig.
 	
 	Wir zeigen
-	\begin{align*}
+	\begin{align}
 		\forall k \in \{1, ..., i - p_i - 1\}: L_{ik} = 0
-	\end{align*}
+	\end{align}
 	durch vollständige Induktion nach $k$:
 	
 	Falls $\{1, ..., i - p_i - 1\} = \emptyset$ ist nichts zu zeigen.
@@ -358,7 +352,7 @@ Beweisen Sie, dass die Besetzungsstruktur der Cholesky-Zerlegung der Skyline-Mat
 			L_{i1} = \frac{A_{i1} - \sum_{j=1}^{0}L_{ij}L_{1j}}{L_{11}} = \frac{0}{L_{11}} = 0
 		\end{align*}
 	
-		\item \textbf{Induktionsvoraussetzung:} $\forall j \in \{1, ..., k - 1\}: L_{ij} = 0$
+		\item \textbf{Induktionsvoraussetzung:} Es gelte $\forall j \in \{1, ..., k - 1\}: L_{ij} = 0$.
 		
 		\item \textbf{Induktionsschritt:} $k-1 \implies k$
 		
