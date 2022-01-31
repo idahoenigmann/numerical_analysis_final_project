@@ -125,7 +125,7 @@ In sogenannter doppelt logarithmischer Darstellung (log-log Plots) wird für bei
 \begin{ausarbeitung}
 	Berechnen wir für eine Funktion der Form $y=cx^p$ die Werte $X=\log x$ und $Y = \log y$, so erhalten wir
 	
-	\begin{align}
+	\begin{align}\label{eq:log_log}
 		Y = \log y = \log(c x^p) = \log c + p \log x = \log c + p X
 	\end{align}
 
@@ -135,13 +135,13 @@ In sogenannter doppelt logarithmischer Darstellung (log-log Plots) wird für bei
 	
 	\begin{figure}
 		\centering
-		\begin{subfigure}{0.48\textwidth}
+		\begin{subfigure}{0.46\textwidth}
 			\includegraphics[width=\textwidth]{loglog_plot_a}
 			\caption{Vergleich der beiden Graphen der Gleichung $y = 2x^3$. Im Loglog plot ist zu erkennen, dass die Steigung der Geraden $3$ bei gleichen Achsenskalierungen ist, also gilt $p = 3$.}
 			\label{fig:loglog_plot_a}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}{0.48\textwidth}
+		\begin{subfigure}{0.46\textwidth}
 			\includegraphics[width=\textwidth]{loglog_plot_b}
 			\caption{Vergleich der beiden Graphen der Gleichung $y = 6x^{0.5}$. Im Loglog plot ist zu erkennen, dass bei die Funktion bei $x=1$ den Funktionswert $6$ annimmt, also gilt $c = 6$.}
 			\label{fig:loglog_plot_b}
@@ -313,6 +313,7 @@ Beweisen Sie, dass die Besetzungsstruktur der Cholesky-Zerlegung der Skyline-Mat
 
 \begin{proof}
 	Aus der Vorlesung ist bekannt, dass der folgende Algorithmus die Choleksy-Zerlegung einer symmetrischen, positiv definiten Matrix berechnet.
+	\begin{samepage}
 	\begin{enumerate}[label={(\arabic*)}]
 		\item \texttt{for k = 1:n}
 		\item \hspace{5mm} $L_{kk} = \sqrt{A_{kk} - \sum_{j=1}^{k-1}(L_{kj})^2}$
@@ -321,6 +322,7 @@ Beweisen Sie, dass die Besetzungsstruktur der Cholesky-Zerlegung der Skyline-Mat
 		\item \hspace{5mm} \texttt{end loop}
 		\item \texttt{end loop}
 	\end{enumerate}
+	\end{samepage}
 
 	Weiters ist bekannt, dass im Algorithmus auf Werte $L_{ik}$ nur zugegriffen wird, falls diese bereits berechnet wurden.
 	
@@ -381,6 +383,7 @@ Verwenden Sie den Cholesky-Algorithmus aus der Vorlesung. Entwerfen Sie jeweils 
 möglichst effizient die Struktur erkennt.
 
 \begin{ausarbeitung}
+	\begin{samepage}
 	\begin{lstlisting}[language=Python, caption=Strukturerkennung einer nicht notwendigerweise symmetrischen Skyline-Matrix]
 	to_skyline
 	Input: n times n matrix A
@@ -396,7 +399,9 @@ möglichst effizient die Struktur erkennt.
 			append up_branch and left_branch to values
 	
 	Output: values\end{lstlisting}
+	\end{samepage}
 	
+	\begin{samepage}
 	\begin{lstlisting}[language=Python, caption=Strukturerkennung einer symmetrischen positiv definiten Skyline-Matrix]
 	to_spd_skyline
 	Input: n times n SPD matrix A			
@@ -409,13 +414,15 @@ möglichst effizient die Struktur erkennt.
 			append branch to values
 		
 	Output: values\end{lstlisting}
+	\end{samepage}
 \end{ausarbeitung}
 
-
+\newpage
 \subsection{}
 die Cholesky-Zerlegung berechnet.
 
 \begin{ausarbeitung}
+	\begin{samepage}
 	\begin{lstlisting}[language=Python, caption=Algorithmus für die Cholesky Zerlegung einer Matrix aus der Vorlesung]
 	cholesky
 	Input: n times n SPD matrix A	
@@ -436,7 +443,9 @@ die Cholesky-Zerlegung berechnet.
 				L[i, k] = (A[i, k] - s) / L[k, k]
 
 	Output: matrix L\end{lstlisting}
+	\end{samepage}
 	
+	\begin{samepage}
 	\begin{lstlisting}[language=Python, caption=Optimierter Algorithmus für die Cholesky Zerlegung einer Skyline-Matrix]
 	cholesky_skyline
 	Input: values as returned by to_spd_skyline
@@ -463,6 +472,7 @@ die Cholesky-Zerlegung berechnet.
 					L[i, k] = (e - s) / L[k, k]
 
 	Output: matrix L\end{lstlisting}
+	\end{samepage}
 \end{ausarbeitung}
 \newpage
 
@@ -668,7 +678,8 @@ Implementieren Sie Ihren modifizierten Cholesky-Algorithmus in Python und weisen
 
 \section{Python Implementierung}
 
-\begin{lstlisting}[language=Python, caption=Implementierung der Umwandlung in Skyline-Form sowie der Cholesky Zerlegung für die Skyline-Form]
+\begin{samepage}
+\begin{lstlisting}[language=Python, caption=Auszug der Implementierung der Umwandlung in Skyline-Form sowie der Cholesky Zerlegung für die Skyline-Form]
 	import numpy as np
 	import matrix_utils
 	
@@ -731,5 +742,6 @@ Implementieren Sie Ihren modifizierten Cholesky-Algorithmus in Python und weisen
 			
 			return l
 \end{lstlisting}
+\end{samepage}
 
 \end{document}
