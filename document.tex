@@ -13,6 +13,7 @@
 \usepackage{subcaption}
 \usepackage{tocloft}
 \usepackage[german]{babel}
+\usepackage{mathtools}
 
 \renewcommand\thesection{Aufgabe~\arabic{section}:}
 \renewcommand\thesubsection{Teilaufgabe~\arabic{section}\alph{subsection}}
@@ -78,20 +79,16 @@ Die Aufwandsordnung lässt sich über die Folge $\{p_N\}_{N \in \mathbb{N}}$ mit
 quantifizieren. Beachten Sie, dass die Bestimmung von $p_N$ die Verfügbarkeit von zwei aufeinanderfolgenden Folgengliedern $y_N$ und $y_{2N}$ erfordert. Verwenden Sie den Ansatz $y_N = CN^p$ und leiten Sie die Formel in \ref{eq:def_N} her!
 
 \begin{proof}
-	Sei $(y_N)_{N \in \mathbb{N}}$ die Laufzeit eines numerischen Verfahrens mit
-	
-	\begin{align*}
-		\exists C > 0 \exists p > 0 \forall N \in \mathbb{N}: y_N = CN^p.
-	\end{align*}
+	Sei $(y_N)_{N \in \mathbb{N}}$ die Laufzeit eines numerischen Verfahrens. Wir verwenden den Ansatz $y_N = C N^p$ für ein $C>0$ und $N \in \mathbb{N}$.
 
 	Durch Umformen ergibt sich
 
 	\begin{align*}
-		\log(y_{2N}) - \log(y_N) = \log\left(\frac{y_{2N}}{y_N}\right) = \log\left(\frac{C(2N)^{p}}{C\cdot N^{p}}\right) = \log(2^{p}) = p \log(2) \\
-		\implies p = \frac{\log(y_{2N}) - \log(y_N)}{\log(2)}.
+		&\log(y_{2N}) - \log(y_N) = \log\left(\frac{y_{2N}}{y_N}\right) = \log\left(\frac{C(2N)^{p}}{C\cdot N^{p}}\right) = \log(2^{p}) = p \log(2) \text{ , d.h.} \\
+		&p = \frac{\log(y_{2N}) - \log(y_N)}{\log(2)}.
 	\end{align*}
 
-	Wenn sich $y_N$ asymptotisch wie $CN^p$ verhält konvergiert $p_N$ gegen $p$.
+	Verhält sich also $y_N$ asymptotisch wie $CN^p$, so konvergiert $p_N$ gegen $p$.
 
 \end{proof}
 
@@ -102,24 +99,19 @@ Sei $\{\delta_N\}_{N \in \mathbb{N}} \subseteq \mathbb{R}$ eine Nullfolge, d.h. 
 \begin{proof}	
 	Zuerst berechnen wir einen Grenzwert, den wir in späterer Folge verwenden werden.
 	
-	\begin{align*}
-		\lim\limits_{n\rightarrow\infty} \log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right) = \log\left(\lim\limits_{n\rightarrow\infty}\frac{C+\delta_{2N}}{C+\delta_N}\right) = \log\left(\frac{\lim\limits_{n\rightarrow\infty}C+\delta_{2N}}{\lim\limits_{n\rightarrow\infty}C+\delta_N}\right) = \log\left(\frac{C}{C}\right) = \log(1) = 0
-	\end{align*}
-
-	Die Gleichungen stimmen, da $\lim$ stetig ist und da laut Voraussetzung $\delta_N$ und somit auch $\delta_{2N}$ als Teilfolge, gegen $0$ konvergieren.
-
-	Wir berechnen $\lim\limits_{n\rightarrow\infty}p_n$ indem wir die Gleichung \ref{eq:def_N} verwenden. Durch Einsetzen der Voraussetzung 
+	% \stackrel{\eqref{...}}{=} woher kommen die zwei unterscheidlichen labels??
 	
 	\begin{align*}
-		y_N = (C+\delta_N)N^p
+		\lim\limits_{n\rightarrow\infty} \log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right) \stackrel{(1)}{=} \log\left(\lim\limits_{n\rightarrow\infty}\frac{C+\delta_{2N}}{C+\delta_N}\right) = \log\left(\frac{\lim\limits_{n\rightarrow\infty}C+\delta_{2N}}{\lim\limits_{n\rightarrow\infty}C+\delta_N}\right) \stackrel{(2)}{=} \log\left(\frac{C}{C}\right) = \log(1) = 0
 	\end{align*}
+
+	Hierbei folgt (1) aus der Stetigkeit des Logarithmus und (2) aus der Voraussetzung $\delta_N\rightarrow 0$ (womit auch $\delta_{2N}\rightarrow 0$).
 	
-	und den Rechenregeln von Limiten und dem Logarithmus erhalten wir folgendes:
+	Setzen wir nun die Voraussetzung $y_N = (C+\delta_N)N^p$ in Gleichung \ref{eq:def_N} ein, so erhalten wir
 
 	\begin{align*}
-		\implies
-		p_N = \frac{\log(y_{2N}) - \log(y_N)}{\log(2)} = \frac{\log((C+\delta_{2N})(2N)^p) - \log((C+\delta_N)N^p)}{\log(2)} = \frac{\log\left(\frac{(C+\delta_{2N})(2N)^p}{(C+\delta_N)N^p}\right)}{\log(2)} \\
-		= \frac{\log\left(\frac{(C+\delta_{2N})2^p}{(C+\delta_N)}\right)}{\log(2)} = \frac{p \log(2) + \log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right)}{\log(2)} = p + \frac{\log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right)}{\log(2)} \xrightarrow{n\rightarrow\infty} p + 0 = p
+		p_N &= \frac{\log(y_{2N}) - \log(y_N)}{\log(2)} = \frac{\log((C+\delta_{2N})(2N)^p) - \log((C+\delta_N)N^p)}{\log(2)} = \frac{\log\left(\frac{(C+\delta_{2N})(2N)^p}{(C+\delta_N)N^p}\right)}{\log(2)} \\
+		&= \frac{\log\left(\frac{(C+\delta_{2N})2^p}{(C+\delta_N)}\right)}{\log(2)} = \frac{p \log(2) + \log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right)}{\log(2)} = p + \frac{\log\left(\frac{C+\delta_{2N}}{C+\delta_N}\right)}{\log(2)} \xrightarrow{n\rightarrow\infty} p + 0 = p
 	\end{align*}
 	
 	Zusammenfassend gilt nun $\lim\limits_{n\rightarrow\infty}p_n = p$, was zu zeigen war.
@@ -131,13 +123,10 @@ Sei $\{\delta_N\}_{N \in \mathbb{N}} \subseteq \mathbb{R}$ eine Nullfolge, d.h. 
 In sogenannter doppelt logarithmischer Darstellung (log-log Plots) wird für beide Koordinatenachsen eine logarithmische Skalierung verwendet, d.h. sowohl die waagrechte als auch die senkrechte Koordinatenachse wird logarithmisch unterteilt. Wie werden Potenzfunktionen der Form $y = c x^p$ in einem log-log Plot dargestellt? Wie können Sie die Ordnung $p$ und die Konstante $c > 0$ aus einem log-log Plot von $y = cx^p$ direkt auslesen?
 
 \begin{ausarbeitung}
-	Die Darstellung hat die Form einer Geraden, da die neuen Achsen $X = \log(x)$ und $Y = \log(y)$ sind und gilt 
+	Berechnen wir für eine Funktion der Form $y=cx^p$ die Werte $X=\log x$ und $Y = \log y$, so erhalten wir
 	
 	\begin{align}
-		y &= c \cdot x^p\notag\\
-		\iff \log(y) &= \log(c \cdot x^p) = \log(c) + p \log(x)\notag\\
-		\label{eq:log_log}
-		\iff Y &= \log(c) + p \cdot X
+		Y = \log y = \log(c x^p) = \log c + p \log x = \log c + p X
 	\end{align}
 
 	was der Gleichung einer Geraden entspricht.
