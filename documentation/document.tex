@@ -180,7 +180,7 @@ Folgendes Beispiel illustriert diese Aussage:
 \subsection{}
 Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es wird nicht durch Null dividiert oder die Wurzel aus einer negativen Zahl gezogen), wenn die Matrix $A \in \mathbb{R}^{n\times n}$ symmetrisch und positiv definit ist.
 
-\begin{proof}
+\begin{proof}[Beweis der Existenz der Cholesky-Zerlegung]
 	Wir wiederholen zuerst die relevanten Definitionen.
 	
 	\begin{itemize}
@@ -305,6 +305,29 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 		was zu zeigen war.
 	\end{itemize}
 	
+\end{proof}
+
+\begin{proof}[Beweis der Wohldefiniertheit]
+	Angenommen das Cholesky-Verfahren ist wohldefiniert. Sei $A \in \mathbb{R}^{n\times n}$ beliebig und $L \in \mathbb{R}^{n\times n}$ die untere Dreiecksmatrix der Cholesky-Zerlegung.
+	
+	Aus der Eigenschaft $A = LL^T$ der Cholesky-Zerlegung ergibt sich
+	
+	\begin{align}\label{eq:symmetry}
+		A^T = (LL^T)^T = L^{TT}L^T = LL^T = A
+	\end{align}
+
+	woraus sich die Symmetrie von $A$ ergibt.
+	
+	Sei $x \in \mathbb{R}^n\setminus\{0\}$ beliebig. Wir definieren $u:=L^Tx \in \mathbb{R}^n$. Da $L$ eine reguläre Matrix ist gilt $u \neq 0$ und
+	
+	\begin{align}\label{eq:pos_def}
+		x^TAx = x^TLL^Tx = u^Tu > 0.
+	\end{align}
+	
+	Insgesamt zeigen Gleichungen~\ref{eq:symmetry} und~\ref{eq:pos_def}, dass $A$ eine SPD Matrix ist.
+	
+	
+	Wenn umgekehrt $A$ eine SPD Matrix ist, so zeigt der Beweis der Existenz der Cholesky-Zerlegung, dass die Cholesky-Zerlegung existiert und an keiner Stelle durch Null dividiert oder die Wurzel einer negativen Zahl gezogen wird.
 \end{proof}
 
 
