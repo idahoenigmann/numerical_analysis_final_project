@@ -15,32 +15,43 @@ def measure_time_cholesky(matrix):
 
 
 if __name__ == "__main__":
-    n, b = 10, 2
+    if len(sys.argv) > 1:
+        n = int(sys.argv[1])
+        b = 10
 
-    random_matrix = matrix_utils.generate_rand_spd_skyline_matrix(n, b)
+        random_matrix = matrix_utils.generate_rand_spd_skyline_matrix(n, b)
 
-    matrix = SPDSkylineMatrix(random_matrix)
+        time_cholesky_skyline, time_cholesky, time_numpy = measure_time_cholesky(random_matrix)
 
-    print("random input matrix:")
-    matrix_utils.print_matrix(random_matrix)
-    print("-" * 50)
+        print("{}, {}, {}, {}".format(n, time_cholesky_skyline, time_cholesky, time_numpy))
 
-    l = matrix.cholesky()
+    else:
+        n, b = 10, 2
 
-    print("cholesky decomposition:")
-    matrix_utils.print_matrix(l)
-    print("-" * 50)
+        random_matrix = matrix_utils.generate_rand_spd_skyline_matrix(n, b)
 
-    print("l * l.T:")
-    matrix_utils.print_matrix(np.matmul(l, l.T))
-    print("-" * 50)
+        matrix = SPDSkylineMatrix(random_matrix)
 
-    print("maximum error (matrix - l * l.T): {}".format(abs(np.max(random_matrix - np.matmul(l, l.T)))))
-    print("-" * 50)
+        print("random input matrix:")
+        matrix_utils.print_matrix(random_matrix)
+        print("-" * 50)
 
-    print("time measurement:")
+        l = matrix.cholesky()
 
-    time_cholesky_skyline, time_cholesky, time_numpy = measure_time_cholesky(random_matrix)
+        print("cholesky decomposition:")
+        matrix_utils.print_matrix(l)
+        print("-" * 50)
 
-    print("cholesky_skyline: {}ns; cholesky: {}ns; numpy: {}ns".format(time_cholesky_skyline, time_cholesky, time_numpy))
-    print("-" * 50)
+        print("l * l.T:")
+        matrix_utils.print_matrix(np.matmul(l, l.T))
+        print("-" * 50)
+
+        print("maximum error (matrix - l * l.T): {}".format(abs(np.max(random_matrix - np.matmul(l, l.T)))))
+        print("-" * 50)
+
+        print("time measurement:")
+
+        time_cholesky_skyline, time_cholesky, time_numpy = measure_time_cholesky(random_matrix)
+
+        print("cholesky_skyline: {}ns; cholesky: {}ns; numpy: {}ns".format(time_cholesky_skyline, time_cholesky, time_numpy))
+        print("-" * 50)
