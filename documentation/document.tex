@@ -25,6 +25,9 @@
 \renewcommand*{\proofname}{Beweis}
 \newenvironment{ausarbeitung}{\vspace{3mm}\noindent\textit{Ausarbeitung.}}{}
 
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
@@ -330,22 +333,47 @@ Beweisen Sie, dass das Cholesky-Verfahren genau dann wohldefiniert ist (d.h. es 
 	Wenn umgekehrt $A$ eine SPD Matrix ist, so zeigt der Beweis der Existenz der Cholesky-Zerlegung, dass die Cholesky-Zerlegung existiert und an keiner Stelle durch Null dividiert oder die Wurzel einer negativen Zahl gezogen wird.
 \end{proof}
 
+Aus der Vorlesung ist folgender Algorithmus zur Berechnung einer Cholesky-Zerlegung bekannt:
+
+\begin{definition}[Algorithmus zur Berechnung einer Cholesky-Zerlegung]~\\
+	\label{def:cholesky_algorithm}
+	
+	\begin{samepage}
+		\noindent Input: SPD Matrix $A \in \mathbb{R}^{n\times n}$
+		\begin{enumerate}[label={(\arabic*)}]
+			\item \texttt{for k = 1:n}
+			\item \hspace{5mm} $L_{kk} = \sqrt{A_{kk} - \sum_{j=1}^{k-1}(L_{kj})^2}$
+			\item \hspace{5mm} \texttt{for i = k+1:n}
+			\item \hspace{10mm} $L_{ik} = (A_{ik} - \sum_{j=1}^{k-1}L_{ij}L_{kj})/(L_{kk})$
+			\item \hspace{5mm} \texttt{end loop}
+			\item \texttt{end loop}
+		\end{enumerate}
+		Output: untere Dreiecksmatrix $L \in \mathbb{R}^{n\times n}$
+	\end{samepage}
+\end{definition}
+
+\begin{proof}[Beweis der Wohldefiniertheit des Algorithmus aus Definition~\ref{def:cholesky_algorithm}]
+	Aus der Vorlesung ist bereits bekannt, dass auf Werte $L_{ik}$ nur zugreift, falls diese bereits berechnet wurden.
+	
+	Um die Wohldefiniertheit zu zeigen, muss einerseits wegen Zeile (2) und andererseits wegen Zeile (4) gelten, dass $A_{kk} - \sum_{j=1}^{k-1}(L_{kj})^2 > 0$ für alle $k\in \{1, ..., n\}$.
+	
+	Aus der Eigenschaft $A=LL^T$ ergibt sich
+	
+	\begin{align*}
+		A_{kk} = \sum_{j=1}^{k}(L_{kj})^2 = (L_{kk})^2 + \sum_{j=1}^{k-1}(L_{kj})^2 \geq \sum_{j=1}^{k-1}(L_{kj})^2
+	\end{align*}
+
+	und daraus $A_{kk} - \sum_{j=1}^{k-1}(L_{kj})^2 \geq 0$.
+	
+	Angenommen $A_{kk} - \sum_{j=1}^{k-1}(L_{kj})^2 = 0$ und somit auch $L_{kk} = 0$. Dann wäre $L$ nicht regulär, da die Determinante gleich Null ist. Gemeinsam mit $A=LL^T$ ist das jedoch ein Widerspruch zu $A$ ist positiv definit (also auch regulär). Das heißt es muss $A_{kk} - \sum_{j=1}^{k-1}(L_{kj})^2 > 0$ gelten, was zu zeigen war.
+\end{proof}
 
 \subsection{}
 Beweisen Sie, dass die Besetzungsstruktur der Cholesky-Zerlegung der Skyline-Matrix $A$ erhalten bleibt, d.h. dass auch die untere Dreiecksmatrix $L$ eine geeignete Bandstruktur aufweist.
 
 \begin{proof}
-	Aus der Vorlesung ist bekannt, dass der folgende Algorithmus die Choleksy-Zerlegung einer symmetrischen, positiv definiten Matrix berechnet.
-	\begin{samepage}
-	\begin{enumerate}[label={(\arabic*)}]
-		\item \texttt{for k = 1:n}
-		\item \hspace{5mm} $L_{kk} = \sqrt{A_{kk} - \sum_{j=1}^{k-1}(L_{kj})^2}$
-		\item \hspace{5mm} \texttt{for i = k+1:n}
-		\item \hspace{10mm} $L_{ik} = (A_{ik} - \sum_{j=1}^{k-1}L_{ij}L_{kj})/(L_{kk})$
-		\item \hspace{5mm} \texttt{end loop}
-		\item \texttt{end loop}
-	\end{enumerate}
-	\end{samepage}
+	Aus der Vorlesung ist bekannt, dass der Algorithmus aus Definition~\ref{def:cholesky_algorithm} die Choleksy-Zerlegung einer symmetrischen, positiv definiten Matrix berechnet.
+	
 
 	Weiters ist bekannt, dass im Algorithmus auf Werte $L_{ik}$ nur zugegriffen wird, falls diese bereits berechnet wurden.
 	
