@@ -6,7 +6,7 @@ def generate_rand_SPD_matrix(dimension):
     matrix = np.empty((dimension, dimension))
 
     while not (is_symmetrical(matrix) and is_positive_definite(matrix)):
-        matrix = np.random.rand(dimension, dimension)
+        matrix = np.random.rand(dimension, dimension) * np.random.randint(-10, 10)
         matrix = 0.5 * (matrix + matrix.T) + np.identity(dimension)
         # for i in range(dimension):
         #     for j in range(i + 1, dimension):
